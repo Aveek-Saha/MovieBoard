@@ -1,0 +1,25 @@
+{
+  "name": "movieboard",
+  "version": "1.0.0",
+  "description": "A place for all movie reviews, ratings and discussions",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon ./backend/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Aveek-Saha/MovieBoard.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Aveek-Saha/MovieBoard/issues"
+  },
+  "homepage": "https://github.com/Aveek-Saha/MovieBoard#readme",
+  "dependencies": {
+    "mongoose": "^7.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.21"
+  }
+}
