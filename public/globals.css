@@ -20,16 +20,48 @@ html {
     --notificationShadow: rgba(0, 0, 0, 0.05);
     --notificationEmojiCodeColor: rgba(0, 0, 0, 0.85);
     --menuBackground: #ff5a79;
+    --background-body: #111111;
+    --scrollbar-thumb: #272727;
+    --scrollbar-thumb-hover: #444444;
 }
-/* .card:hover {
-    box-shadow: none;
-    background-color: #3b3b3b;
-} */
+
 body,
 html {
     background-color: var(--background);
     color: var(--cardText);
+    scrollbar-color: var(--scrollbar-thumb) var(--background-body);
 }
+
+::-webkit-scrollbar {
+    height: 10px;
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #161f27;
+    background: var(--background-body);
+}
+
+::-webkit-scrollbar-thumb {
+    background: #040a0f;
+    background: var(--scrollbar-thumb);
+}
+
+::-webkit-scrollbar-thumb {
+    background: #040a0f;
+    background: var(--scrollbar-thumb);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgb(0, 0, 0);
+    background: var(--scrollbar-thumb-hover);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgb(0, 0, 0);
+    background: var(--scrollbar-thumb-hover);
+}
+
 .a {
     text-decoration: none;
     color: inherit;
