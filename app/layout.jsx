@@ -15,6 +15,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
     return (
         <html lang="en">
+            <head>
+                <link href="/globals.css" rel="stylesheet"></link>
+            </head>
             <body>
                 <div className="container">
                     <AuthContext>

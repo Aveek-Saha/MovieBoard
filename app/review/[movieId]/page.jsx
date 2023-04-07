@@ -1,6 +1,7 @@
 import StarRating from "@/components/movies/StarRating";
 import Review from "@/components/reviews/Review";
 import MovieSidebar from "@/components/movies/MovieSidebar";
+import Follow from "@/components/movies/Follow";
 import prisma from "@/prisma/prisma";
 
 async function getMovieBoard(movieId) {
@@ -16,6 +17,11 @@ async function getMovieBoard(movieId) {
                             user: true,
                         },
                     },
+                },
+            },
+            followers: {
+                select: {
+                    userId: true,
                 },
             },
             _count: {
@@ -49,8 +55,10 @@ export default async function Page({ params }) {
 
     const movieBoard = await getMovieBoard(params.movieId);
     let numFollowers = 0;
+    let followers;
     if (movieBoard) {
         numFollowers = movieBoard._count.followers;
+        followers = movieBoard.followers;
     }
 
     return (
@@ -91,13 +99,10 @@ export default async function Page({ params }) {
                             >
                                 Write Review
                             </a>
-
-                            <a
-                                href={`#`}
-                                className="btn btn-outline-primary m-2"
-                            >
-                                Follow
-                            </a>
+                            <Follow
+                                movieId={params.movieId}
+                                followers={followers}
+                            />
                         </div>
                     </div>
                 </div>
