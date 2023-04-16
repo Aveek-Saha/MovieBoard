@@ -20,11 +20,10 @@ html {
     box-shadow: none;
     background-color: #3b3b3b;
 }
-
 body,
 html {
-    background-color: var(--background) !important;
-    color: var(--cardText) !important;
+    background-color: var(--background);
+    color: var(--cardText);
 }
 a {
     text-decoration: none;
@@ -36,7 +35,7 @@ a:hover {
 }
 .header__item,
 .header__title {
-    font-family: "Roboto Mono", "DejaVu Sans Mono", "Consolas", monospace;
+    font-family: "Roboto Mono","DejaVu Sans Mono","Consolas",monospace;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -56,6 +55,34 @@ a:hover {
 .header {
     background-color: var(--background);
 }
+.card {
+    background-color: var(--cardBackground);
+    border-radius: 4px;
+    box-shadow: 0 1px 2px 0 var(--cardShadow);
+    flex: 1 1;
+    cursor: pointer;
+}
+/* .card:hover {
+    box-shadow: 0 10px 20px 0 var(--cardShadow);
+    transform: translateY(-4px);
+} */
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.06);
+}
+.card:active {
+    transform: scale(0.99);
+    box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+}
+/* .card-text {
+    position: absolute;
+    bottom: 1em;
+    left: 50%;
+    transform: translate(-50%, -50%);
+} */
+.card-body {
+    text-align: center;
+}
 .form-control:focus {
     background-color: var(--cardBackground);
     color: var(--text);
@@ -71,4 +98,14 @@ a:hover {
     font-size: 1rem;
     padding: 1rem;
     margin-right: 1rem;
+}
+.img-badge {
+    padding: 0.63em 0.75em;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1.4px;
+    fill: #fff;
+}
+.emoji {
+	font-size: 3rem;
 }
