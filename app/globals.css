@@ -90,8 +90,8 @@ html {
     border: 0;
     box-shadow: 0 2px 4px 0 var(--cardShadow);
     flex: 1 1;
-    font-size: 1rem;
-    /* padding: 1rem; */
+    font-size: 1.2rem;
+    padding: 1rem;
     margin-right: 1rem;
 }
 .img-badge {

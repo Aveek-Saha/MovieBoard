@@ -22,8 +22,13 @@ function longDate(isoDate) {
 
 export default async function Page({ params }) {
     const movie = await getMovie(params.movieId);
-    const imgUrl = `https://image.tmdb.org/t/p/w500/${movie.poster_path}`;
-    const backgroundUrl = `https://image.tmdb.org/t/p/w300/${movie.backdrop_path}`;
+
+    let imgUrl;
+    if (movie.poster_path != null) {
+        imgUrl = `https://image.tmdb.org/t/p/w500/${movie.poster_path}`;
+    } else {
+        imgUrl = `https://placehold.co/500x714/222222/222222.jpg?text=Img`;
+    }
     const palette = await Vibrant.from(imgUrl).getPalette();
     return (
         <div className="card card_movie mb-3">
@@ -61,9 +66,8 @@ export default async function Page({ params }) {
                                 {toHoursAndMinutes(movie.runtime)}
                             </span>
                         </p>
-                        <p className="card-text">
-                            <h4>Overview</h4>
-                            {movie.overview}</p>
+                        <h4>Overview</h4>
+                        <p className="card-text">{movie.overview}</p>
                         <a href="#" className="btn btn-dark">
                             Show reviews
                         </a>

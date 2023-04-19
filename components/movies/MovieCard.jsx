@@ -3,7 +3,19 @@ import Vibrant from "node-vibrant";
 import Genres from "./Genres";
 
 export default async function MovieCard({ movie }) {
-    const imgUrl = `https://image.tmdb.org/t/p/w300/${movie.backdrop_path}`;
+    let imgUrl;
+    // if (movie.backdrop_path != null) {
+    //     imgUrl = `https://image.tmdb.org/t/p/w300/${movie.backdrop_path}`;
+    // } else {
+    //     imgUrl = `https://placehold.co/300x169/222222/222222.jpg?text=Poster`;
+    // }
+    
+    if (movie.poster_path != null) {
+        imgUrl = `https://image.tmdb.org/t/p/w342/${movie.poster_path}`;
+    } else {
+        imgUrl = `https://placehold.co/500x714/222222/222222.jpg?text=Img`;
+    }
+    
     const palette = await Vibrant.from(imgUrl).getPalette();
     return (
         <div className="col mb-3 text-center">
@@ -19,7 +31,7 @@ export default async function MovieCard({ movie }) {
                         color: "inherit",
                     }}
                 >
-                    <img src={imgUrl} className="card-img-top" alt="..."></img>
+                    <img src={imgUrl} className="card-img-top img-fluid" alt="..."></img>
                     <div className="card-body card-body_list">
                         <h5 className="card-title m-2 text-truncate">
                             {movie.title}
