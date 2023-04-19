@@ -11,8 +11,8 @@ export default async function NowPlaying() {
     const movies = nowPlaying.results;
     return (
         <>
-            <h1>Now Playing</h1>
-            <div className="row row-cols-lg-5 row-cols-sm-2 row-cols-md-4 row-cols-xs-1 g-4">
+            <h1 className="mb-0">Now Playing</h1>
+            <div className="row row-cols-2 row-cols-xl-5 row-cols-lg-4 row-cols-md-3 row-cols-sm-2 row-cols-xs-1 g-4">
                 {movies?.map((movie) => {
                     return <MovieCard key={movie.id} movie={movie} />;
                 })}

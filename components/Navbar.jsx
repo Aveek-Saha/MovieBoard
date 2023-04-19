@@ -7,14 +7,28 @@
 export default async function Navbar() {
     // const session = await getServerSession(authOptions);
     return (
-        <div className="row">
-            <header className="header mt-5 mb-4">
-                <h1 className="header__title">MovieBoard</h1>
-                {/* <p className="header__item">
-                    {!session?.user && <Login />}
-                    {session?.user && <Logout />}
-                </p> */}
-            </header>
-        </div>
+        <nav className="navbar navbar-expand-lg bg-body-tertiary header navbar-dark mb-4 mt-2">
+            <div className="container-fluid">
+                <a className="navbar-brand header__title fs-2" href="/">
+                    MovieBoard
+                </a>
+                <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li className="nav-item">
+                        <a
+                            className="nav-link active"
+                            aria-current="page"
+                            href="#"
+                        >
+                            Home
+                        </a>
+                    </li>
+                    <li className="nav-item">
+                        <a className="nav-link" href="#">
+                            Search
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
     );
 }

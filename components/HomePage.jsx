@@ -3,7 +3,7 @@ import Popular from "./movies/Popular";
 
 export default function HomePage() {
     return (
-        <div>
+        <div className="row">
             <NowPlaying />
             <Popular />
         </div>
