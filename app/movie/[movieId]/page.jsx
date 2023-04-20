@@ -1,6 +1,8 @@
 import Vibrant from "node-vibrant";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendar, faClock } from "@fortawesome/free-regular-svg-icons";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
+import StarRating from "@/components/movies/StarRating";
 
 async function getMovie(movieId) {
     const url = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${process.env.TMDB_API_KEY}&language=en-US`;
@@ -30,6 +32,9 @@ export default async function Page({ params }) {
         imgUrl = `https://placehold.co/500x714/222222/222222.jpg?text=Img`;
     }
     const palette = await Vibrant.from(imgUrl).getPalette();
+
+    const ratingNumber = movie.vote_average;
+    const numReviews = 20;
     return (
         <div className="card card_movie mb-3">
             <div className="row g-0">
@@ -65,6 +70,14 @@ export default async function Page({ params }) {
                                 <FontAwesomeIcon icon={faClock} />{" "}
                                 {toHoursAndMinutes(movie.runtime)}
                             </span>
+                        </p>
+                        <p className="card-text">
+                            <StarRating
+                                ratingNumber={ratingNumber / 2}
+                                className="me-1"
+                            />{" "}
+                            / <strong className="ms-1">{numReviews}</strong>{" "}
+                            reviews
                         </p>
                         <h4>Overview</h4>
                         <p className="card-text">{movie.overview}</p>
