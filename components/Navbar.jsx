@@ -17,7 +17,7 @@ export default async function Navbar() {
                         <a
                             className="nav-link active"
                             aria-current="page"
-                            href="#"
+                            href="/"
                         >
                             Home
                         </a>
@@ -28,6 +28,9 @@ export default async function Navbar() {
                         </a>
                     </li>
                 </ul>
+                <a className="navbar-text" href="/user/login">
+                    Login
+                </a>
             </div>
         </nav>
     );
