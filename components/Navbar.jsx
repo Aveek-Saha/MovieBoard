@@ -1,8 +1,7 @@
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../pages/api/auth/[...nextauth]";
 
-// import Login from "../components/auth/Login";
-// import Logout from "../components/auth/Logout";
+import Logout from "../components/auth/Logout";
 
 export default async function Navbar() {
     const session = await getServerSession(authOptions);
@@ -27,10 +26,28 @@ export default async function Navbar() {
                             Search
                         </a>
                     </li>
+                    {session?.user && (
+                        <li className="nav-item">
+                            <a
+                                className="nav-link active"
+                                href="/user"
+                            >
+                                Profile
+                            </a>
+                        </li>
+                    )}
                 </ul>
-                <a className="navbar-text header__item" href="/user/login">
-                    Login
-                </a>
+
+                {!session?.user && (
+                    <a className="navbar-text header__item" href="/user/login">
+                        Login
+                    </a>
+                )}
+                {session?.user && (
+                    <span className="navbar-text">
+                        {session.user.name} <Logout />
+                    </span>
+                )}
             </div>
         </nav>
     );
