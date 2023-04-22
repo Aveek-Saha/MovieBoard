@@ -1,9 +1,11 @@
+"use client";
+
+import { signIn } from "next-auth/react";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faGoogle,
     faDiscord,
-    faFacebook,
-    faInstagram,
     faGithub,
     faTwitter,
 } from "@fortawesome/free-brands-svg-icons";
@@ -22,27 +24,15 @@ export default function LoginList() {
                 type="button"
                 className="btn btn-lg btn-outline-dark m-2"
                 style={{ color: "#5865f2" }}
+                onClick={() => signIn("discord")}
             >
                 <FontAwesomeIcon icon={faDiscord} /> Discord
             </button>
             <button
                 type="button"
                 className="btn btn-lg btn-outline-dark m-2"
-                style={{ color: "#1877f2" }}
-            >
-                <FontAwesomeIcon icon={faFacebook} /> Facebook
-            </button>
-            <button
-                type="button"
-                className="btn btn-lg btn-outline-dark m-2"
-                style={{ color: "#e1306c" }}
-            >
-                <FontAwesomeIcon icon={faInstagram} /> Instagram
-            </button>
-            <button
-                type="button"
-                className="btn btn-lg btn-outline-dark m-2"
                 style={{ color: "white" }}
+                onClick={() => signIn("github")}
             >
                 <FontAwesomeIcon icon={faGithub} /> Github
             </button>
@@ -50,6 +40,7 @@ export default function LoginList() {
                 type="button"
                 className="btn btn-lg btn-outline-dark m-2"
                 style={{ color: "#1da1f2" }}
+                onClick={() => signIn("twitter")}
             >
                 <FontAwesomeIcon icon={faTwitter} /> Twitter
             </button>

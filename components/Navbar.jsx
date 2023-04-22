@@ -1,11 +1,11 @@
-// import { getServerSession } from "next-auth/next";
-// import { authOptions } from "../pages/api/auth/[...nextauth]";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "../pages/api/auth/[...nextauth]";
 
 // import Login from "../components/auth/Login";
 // import Logout from "../components/auth/Logout";
 
 export default async function Navbar() {
-    // const session = await getServerSession(authOptions);
+    const session = await getServerSession(authOptions);
     return (
         <nav className="navbar navbar-expand-lg bg-body-tertiary header navbar-dark mb-4 mt-2">
             <div className="container-fluid">
@@ -28,7 +28,7 @@ export default async function Navbar() {
                         </a>
                     </li>
                 </ul>
-                <a className="navbar-text" href="/user/login">
+                <a className="navbar-text header__item" href="/user/login">
                     Login
                 </a>
             </div>
