@@ -28,10 +28,7 @@ export default async function Navbar() {
                     </li>
                     {session?.user && (
                         <li className="nav-item">
-                            <a
-                                className="nav-link active"
-                                href="/user"
-                            >
+                            <a className="nav-link" href="/user">
                                 Profile
                             </a>
                         </li>
@@ -44,9 +41,14 @@ export default async function Navbar() {
                     </a>
                 )}
                 {session?.user && (
-                    <span className="navbar-text">
-                        {session.user.name} <Logout />
-                    </span>
+                    <a className="navbar-text header__item" href="#">
+                        <img
+                            src={session.user.image}
+                            className="rounded-circle img-thumbnail p-0 me-2"
+                            width={35}
+                        />
+                        <Logout />
+                    </a>
                 )}
             </div>
         </nav>

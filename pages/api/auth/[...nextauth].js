@@ -35,6 +35,17 @@ export const authOptions = {
             return session;
         },
     },
+    events: {
+        async signIn({ user, isNewUser }) {
+            if (isNewUser) {
+                await prisma.Reviewer.create({
+                    data: {
+                        user: { connect: { id: user.id } },
+                    },
+                });
+            }
+        },
+    },
 };
 
 export default NextAuth(authOptions);
