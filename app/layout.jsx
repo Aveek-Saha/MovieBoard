@@ -1,10 +1,11 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import { config } from '@fortawesome/fontawesome-svg-core'
-import '@fortawesome/fontawesome-svg-core/styles.css'
+import { config } from "@fortawesome/fontawesome-svg-core";
+import "@fortawesome/fontawesome-svg-core/styles.css";
 import "./globals.css";
 
-config.autoAddCss = false
+config.autoAddCss = false;
 import Navbar from "@/components/Navbar";
+import AuthContext from "@/components/auth/AuthContext";
 
 export const metadata = {
     title: "MovieBoard",
@@ -16,8 +17,10 @@ export default function RootLayout({ children }) {
         <html lang="en">
             <body>
                 <div className="container">
-                    <Navbar />
-                    {children}
+                    <AuthContext>
+                        <Navbar />
+                        {children}
+                    </AuthContext>
                 </div>
             </body>
         </html>

@@ -41,14 +41,9 @@ export default async function Navbar() {
                     </a>
                 )}
                 {session?.user && (
-                    <a className="navbar-text header__item" href="#">
-                        <img
-                            src={session.user.image}
-                            className="rounded-circle img-thumbnail p-0 me-2"
-                            width={35}
-                        />
+                    <span className="navbar-text">
                         <Logout />
-                    </a>
+                    </span>
                 )}
             </div>
         </nav>

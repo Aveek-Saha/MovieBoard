@@ -18,7 +18,6 @@ async function getReviewerDetails(session) {
             userId: session.user.id,
         },
     });
-    console.log(reviewer);
     return reviewer;
 }
 
