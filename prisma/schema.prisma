@@ -61,8 +61,7 @@ model VerificationToken {
 }
 
 model Reviewer {
-    id        String       @id @default(cuid())
-    userId    String       @unique
+    userId    String       @id
     user      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
     reviews   Review[]     @relation(name: "UserReview")
     following MovieBoard[]
@@ -70,19 +69,17 @@ model Reviewer {
 }
 
 model Moderator {
-    id        String       @id @default(cuid())
-    userId    String       @unique
+    userId    String       @id
     user      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
     moderates MovieBoard[]
 }
 
 model MovieBoard {
-    id             String      @id @default(cuid())
-    tmdb_id        String      @unique
-    followers      Reviewer[]
-    rating         Float
-    reviews        Review[]
-    moderators     Moderator[]
+    tmdb_id    String      @id
+    followers  Reviewer[]
+    rating     Float
+    reviews    Review[]
+    moderators Moderator[]
 }
 
 model Review {
@@ -91,10 +88,10 @@ model Review {
     body          String
     created_on    DateTime   @default(now())
     last_modified DateTime   @updatedAt
-    boardId       String
-    movieBoard    MovieBoard @relation(fields: [boardId], references: [id], onDelete: Cascade)
+    tmdb_id       String
+    movieBoard    MovieBoard @relation(fields: [tmdb_id], references: [tmdb_id], onDelete: Cascade)
     userId        String
-    user          Reviewer   @relation(fields: [userId], references: [id], onDelete: Cascade, name: "UserReview")
+    user          Reviewer   @relation(fields: [userId], references: [userId], onDelete: Cascade, name: "UserReview")
     rating        Int
     likes         Int
     likedBy       Reviewer[] @relation(name: "UserLiked")

@@ -70,19 +70,10 @@ CREATE TABLE "Moderator" (
 
 -- CreateTable
 CREATE TABLE "MovieBoard" (
-    "id" TEXT NOT NULL,
-    "backdrop_path" TEXT NOT NULL,
-    "genres" INTEGER[],
-    "title" TEXT NOT NULL,
-    "original_title" TEXT NOT NULL,
-    "overview" TEXT NOT NULL,
-    "poster_path" TEXT NOT NULL,
-    "release_date" TEXT NOT NULL,
-    "imdb_id" TEXT NOT NULL,
-    "status" TEXT NOT NULL,
+    "tmdb_id" TEXT NOT NULL,
     "rating" DOUBLE PRECISION NOT NULL,
 
-    CONSTRAINT "MovieBoard_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "MovieBoard_pkey" PRIMARY KEY ("tmdb_id")
 );
 
 -- CreateTable
@@ -92,7 +83,7 @@ CREATE TABLE "Review" (
     "body" TEXT NOT NULL,
     "created_on" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "last_modified" TIMESTAMP(3) NOT NULL,
-    "boardId" TEXT NOT NULL,
+    "tmdb_id" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
     "rating" INTEGER NOT NULL,
     "likes" INTEGER NOT NULL,
@@ -176,7 +167,7 @@ ALTER TABLE "Reviewer" ADD CONSTRAINT "Reviewer_userId_fkey" FOREIGN KEY ("userI
 ALTER TABLE "Moderator" ADD CONSTRAINT "Moderator_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Review" ADD CONSTRAINT "Review_boardId_fkey" FOREIGN KEY ("boardId") REFERENCES "MovieBoard"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "Review" ADD CONSTRAINT "Review_tmdb_id_fkey" FOREIGN KEY ("tmdb_id") REFERENCES "MovieBoard"("tmdb_id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Review" ADD CONSTRAINT "Review_userId_fkey" FOREIGN KEY ("userId") REFERENCES "Reviewer"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -185,10 +176,10 @@ ALTER TABLE "Review" ADD CONSTRAINT "Review_userId_fkey" FOREIGN KEY ("userId") 
 ALTER TABLE "_ModeratorToMovieBoard" ADD CONSTRAINT "_ModeratorToMovieBoard_A_fkey" FOREIGN KEY ("A") REFERENCES "Moderator"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "_ModeratorToMovieBoard" ADD CONSTRAINT "_ModeratorToMovieBoard_B_fkey" FOREIGN KEY ("B") REFERENCES "MovieBoard"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "_ModeratorToMovieBoard" ADD CONSTRAINT "_ModeratorToMovieBoard_B_fkey" FOREIGN KEY ("B") REFERENCES "MovieBoard"("tmdb_id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "_MovieBoardToReviewer" ADD CONSTRAINT "_MovieBoardToReviewer_A_fkey" FOREIGN KEY ("A") REFERENCES "MovieBoard"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "_MovieBoardToReviewer" ADD CONSTRAINT "_MovieBoardToReviewer_A_fkey" FOREIGN KEY ("A") REFERENCES "MovieBoard"("tmdb_id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_MovieBoardToReviewer" ADD CONSTRAINT "_MovieBoardToReviewer_B_fkey" FOREIGN KEY ("B") REFERENCES "Reviewer"("id") ON DELETE CASCADE ON UPDATE CASCADE;

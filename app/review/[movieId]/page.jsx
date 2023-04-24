@@ -9,6 +9,17 @@ async function getMovieBoard(movieId) {
         where: {
             tmdb_id: movieId,
         },
+        include: {
+            reviews: {
+                include: {
+                    user: {
+                        select: {
+                            user: true,
+                        },
+                    },
+                },
+            },
+        },
     });
     return movieBoard;
 }
@@ -46,24 +57,26 @@ export default async function Page({ params }) {
                                 <strong>{numFollowers}</strong> Followers
                             </p>
                             <a
-                                href={`/review/${params.movieId}`}
-                                class="btn btn-outline-success me-2"
+                                href={`/review/${params.movieId}/new`}
+                                className="btn btn-outline-success me-2"
                             >
                                 Write Review
                             </a>
 
-                            <a href={`/#`} class="btn btn-outline-primary">
+                            <a href={`#`} className="btn btn-outline-primary">
                                 Follow
                             </a>
                         </div>
                     </div>
                 </div>
             </div>
-            <div className="row">
-                <h1>Reviews</h1>
-                {movieBoard?.reviews.map((review) => {
-                    <Review review={review} />;
-                })}
+            <div className="row justify-content-center">
+                <div className="col-6">
+                    <h1>Reviews</h1>
+                    {movieBoard?.reviews?.map((review) => {
+                        return <Review review={review} />;
+                    })}
+                </div>
             </div>
         </>
     );
