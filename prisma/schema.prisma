@@ -78,15 +78,7 @@ model Moderator {
 
 model MovieBoard {
     id             String      @id @default(cuid())
-    backdrop_path  String
-    genres         Int[]
-    title          String
-    original_title String
-    overview       String
-    poster_path    String
-    release_date   String
-    imdb_id        String
-    status         String
+    tmdb_id        String      @unique
     followers      Reviewer[]
     rating         Float
     reviews        Review[]

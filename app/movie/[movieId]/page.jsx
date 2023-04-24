@@ -1,92 +1,21 @@
-import Vibrant from "node-vibrant";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendar, faClock } from "@fortawesome/free-regular-svg-icons";
-import { faStar } from "@fortawesome/free-solid-svg-icons";
-import StarRating from "@/components/movies/StarRating";
+import MovieDetails from "@/components/movies/MovieDetails";
 
-async function getMovie(movieId) {
-    const url = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${process.env.TMDB_API_KEY}&language=en-US`;
-    const movie = await fetch(url);
-    return movie.json();
-}
-
-function toHoursAndMinutes(totalMinutes) {
-    const minutes = totalMinutes % 60;
-    const hours = Math.floor(totalMinutes / 60);
-
-    return `${hours}h ${minutes}m`;
-}
-
-function longDate(isoDate) {
-    const date = new Date(isoDate);
-    return date.toDateString().split(" ").slice(1).join(" ");
-}
-
-export default async function Page({ params }) {
-    const movie = await getMovie(params.movieId);
-
-    let imgUrl;
-    if (movie.poster_path != null) {
-        imgUrl = `https://image.tmdb.org/t/p/w500/${movie.poster_path}`;
-    } else {
-        imgUrl = `https://placehold.co/500x714/222222/222222.jpg?text=Img`;
-    }
-    const palette = await Vibrant.from(imgUrl).getPalette();
-
-    const ratingNumber = movie.vote_average;
-    const numReviews = 20;
+export default function Page({ params }) {
     return (
-        <div className="card card_movie mb-3">
-            <div className="row g-0">
-                <div className="col-3">
-                    <img src={imgUrl} className="img-fluid" alt="..." />
-                </div>
-                <div className="col-7 ms-4">
-                    <div className="card-body">
-                        <h1 className="card-title">{movie.title}</h1>
-                        <h5 className="card-subtitle mb-2 text-body-secondary text-muted">
-                            {movie.tagline}
-                        </h5>
-                        <h6 className="card-subtitle mb-2 mt-3">
-                            {movie.genres?.map((g) => {
-                                return (
-                                    <span
-                                        key={g.id}
-                                        className="badge rounded-pill me-1"
-                                        style={{
-                                            backgroundColor: palette.Muted.hex,
-                                        }}
-                                    >
-                                        {g.name}
-                                    </span>
-                                );
-                            })}
-                        </h6>
-                        <p className="card-text">
-                            <span className="text-body-secondary">
-                                <FontAwesomeIcon icon={faCalendar} />{" "}
-                                {longDate(movie.release_date)}
-                                &nbsp;&nbsp;•&nbsp;&nbsp;
-                                <FontAwesomeIcon icon={faClock} />{" "}
-                                {toHoursAndMinutes(movie.runtime)}
-                            </span>
-                        </p>
-                        <p className="card-text">
-                            <StarRating
-                                ratingNumber={ratingNumber / 2}
-                                className="me-1"
-                            />{" "}
-                            / <strong className="ms-1">{numReviews}</strong>{" "}
-                            reviews
-                        </p>
-                        <h4>Overview</h4>
-                        <p className="card-text">{movie.overview}</p>
-                        <a href="#" className="btn btn-dark">
-                            Show reviews
-                        </a>
-                    </div>
+        <>
+            <div className="row">
+                <MovieDetails movieId={params.movieId} />
+            </div>
+            <div className="row justify-content-center">
+                <div className="col-8 col-lg-3 col-md-4 col-sm-6 col-xs-8 d-flex justify-content-center">
+                    <a
+                        href={`/review/${params.movieId}`}
+                        className="btn btn-lg btn-dark"
+                    >
+                        Show reviews
+                    </a>
                 </div>
             </div>
-        </div>
+        </>
     );
 }
