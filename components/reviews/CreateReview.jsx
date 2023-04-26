@@ -30,7 +30,7 @@ export default function CreateReview({ tmdb_id }) {
 
         router.push(`/review/${tmdb_id}`);
     };
-    const [rating, setRating] = useState(0);
+    const [rating, setRating] = useState(1);
     const [hover, setHover] = useState(0);
     return (
         <div className="col-6">

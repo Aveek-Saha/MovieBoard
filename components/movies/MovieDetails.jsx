@@ -1,24 +1,7 @@
 import Vibrant from "node-vibrant";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendar, faClock } from "@fortawesome/free-regular-svg-icons";
-
-async function getMovie(movieId) {
-    const url = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${process.env.TMDB_API_KEY}&language=en-US`;
-    const movie = await fetch(url);
-    return movie.json();
-}
-
-function toHoursAndMinutes(totalMinutes) {
-    const minutes = totalMinutes % 60;
-    const hours = Math.floor(totalMinutes / 60);
-
-    return `${hours}h ${minutes}m`;
-}
-
-function longDate(isoDate) {
-    const date = new Date(isoDate);
-    return date.toDateString().split(" ").slice(1).join(" ");
-}
+import { getMovie, toHoursAndMinutes, longDate } from "../utils";
 
 export default async function MovieDetails({ movieId }) {
     const movie = await getMovie(movieId);

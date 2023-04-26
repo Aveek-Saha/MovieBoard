@@ -8,10 +8,9 @@ import {
     faTrash,
     faStar,
 } from "@fortawesome/free-solid-svg-icons";
-import {
-    faComment,
-    faHeart as faHeartReg,
-} from "@fortawesome/free-regular-svg-icons";
+import { faHeart as faHeartReg } from "@fortawesome/free-regular-svg-icons";
+
+import DeleteReview from "./DeleteReview";
 
 export default async function Review({ review }) {
     const session = await getServerSession(authOptions);
@@ -32,7 +31,15 @@ export default async function Review({ review }) {
                         <div className="col-11">
                             <div className="fw-bolder">
                                 {review.user.user.name}
-                                <span className="fw-normal badge text-bg-secondary ps-2 pe-2 ms-2">
+                                <span
+                                    className={`badge text-bg-${
+                                        review.rating > 6
+                                            ? "success"
+                                            : review.rating > 4
+                                            ? "secondary"
+                                            : "danger"
+                                    } ms-2`}
+                                >
                                     <FontAwesomeIcon icon={faStar} />{" "}
                                     {review.rating}
                                 </span>
@@ -47,12 +54,10 @@ export default async function Review({ review }) {
                         </div>
                         <div className="col-1">
                             {session?.user?.id === review.userId && (
-                                <button className="btn btn-link text-muted text-decoration-none float-end p-0">
-                                    <FontAwesomeIcon
-                                        icon={faTrash}
-                                        // onClick={() => deleteTuitHandler(post._id)}
-                                    />
-                                </button>
+                                <DeleteReview
+                                    reviewId={review.id}
+                                    tmdb_id={review.tmdb_id}
+                                />
                             )}
                         </div>
                     </div>

@@ -17,6 +17,7 @@ export default function LoginList() {
                 type="button"
                 className="btn btn-lg btn-outline-dark m-2"
                 style={{ color: "#ea4335" }}
+                onClick={() => signIn("google")}
             >
                 <FontAwesomeIcon icon={faGoogle} /> Google
             </button>

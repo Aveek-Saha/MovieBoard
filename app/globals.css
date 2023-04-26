@@ -1,3 +1,7 @@
+:root {
+    color-scheme: dark;
+}
+
 html {
     --background: #121212;
     --primary: #ffdd67;
@@ -61,7 +65,7 @@ html {
 }
 
 .list-group-item {
-    background-color: var(--cardBackground);
+    background-color: var(--background);
     color: var(--cardText);
     border-color: var(--cardBorder);
 }
