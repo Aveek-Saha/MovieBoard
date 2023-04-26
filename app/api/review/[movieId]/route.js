@@ -6,7 +6,7 @@ import { NextResponse } from "next/server";
 export async function POST(request, { params }) {
     const session = await getServerSession(authOptions);
     const req = await request.json();
-    const { heading, body, rating } = req;
+    const { body, rating } = req;
     if (session) {
         const movieBoard = await prisma.MovieBoard.findUnique({
             where: {
@@ -33,9 +33,19 @@ export async function POST(request, { params }) {
                 );
             }
         }
+        if (body.length < 1 || body.length > 280 || rating <=0) {
+            return NextResponse.json(
+                {
+                    success: false,
+                    message: "Review body must be between 1 and 280 characters long, rating must be > 0",
+                },
+                {
+                    status: 500,
+                }
+            );
+        }
         const review = await prisma.Review.create({
             data: {
-                heading: heading,
                 body: body,
                 rating: rating,
                 likes: 0,

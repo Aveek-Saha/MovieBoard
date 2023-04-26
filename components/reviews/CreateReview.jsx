@@ -7,30 +7,30 @@ import { faStar as faStarFill } from "@fortawesome/free-solid-svg-icons";
 import { faStar as faStarEmpty } from "@fortawesome/free-regular-svg-icons";
 
 export default function CreateReview({ tmdb_id }) {
-    const [heading, setHeading] = useState("");
     const [body, setBody] = useState("");
     const router = useRouter();
 
     const create = async (e) => {
         e.preventDefault();
-        const res = await fetch(`/api/review/${tmdb_id}`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                heading,
-                body,
-                rating,
-            }),
-        });
+        if (body.length >= 1 && rating > 0) {
+            const res = await fetch(`/api/review/${tmdb_id}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    body,
+                    rating,
+                }),
+            });
 
-        setBody("");
-        setHeading("");
+            setBody("");
 
-        router.push(`/review/${tmdb_id}`);
+            router.push(`/review/${tmdb_id}`);
+        }
     };
-    const [rating, setRating] = useState(1);
+    const [rating, setRating] = useState(0);
+    const [tempRating, setTempRating] = useState(rating);
     const [hover, setHover] = useState(0);
     return (
         <div className="col-6">
@@ -44,8 +44,14 @@ export default function CreateReview({ tmdb_id }) {
                             <span
                                 key={index}
                                 onClick={() => setRating(index)}
-                                onMouseEnter={() => setHover(index)}
-                                onMouseLeave={() => setHover(rating)}
+                                onMouseEnter={() => {
+                                    setHover(index);
+                                    setTempRating(index);
+                                }}
+                                onMouseLeave={() => {
+                                    setHover(rating);
+                                    setTempRating(rating);
+                                }}
                             >
                                 <FontAwesomeIcon
                                     icon={
@@ -58,25 +64,51 @@ export default function CreateReview({ tmdb_id }) {
                             </span>
                         );
                     })}
+                    <span
+                        className={`badge text-bg-${
+                            tempRating > 6
+                                ? "success"
+                                : tempRating > 4
+                                ? "secondary"
+                                : "danger"
+                        }`}
+                    >
+                        {tempRating}
+                    </span>
                 </div>
                 <div className="mb-3">
-                    <input
-                        className="form-control search"
-                        type="text"
-                        placeholder="Review title"
-                        value={heading}
-                        onChange={(e) => setHeading(e.target.value)}
-                    />
-                </div>
-                <div className="mb-3">
+                    <span className="float-end mb-1">
+                        <span
+                            className={`badge text-bg-${
+                                body.length < 250
+                                    ? "success"
+                                    : body.length < 270
+                                    ? "warning"
+                                    : "danger"
+                            }`}
+                        >
+                            {body.length} / 280
+                        </span>
+                    </span>
                     <textarea
                         className="form-control search"
-                        placeholder="Review body"
+                        placeholder="Type your review here"
                         value={body}
                         onChange={(e) => setBody(e.target.value)}
+                        maxLength="280"
+                        rows={7}
                     />
                 </div>
-                <button type="submit" className="btn btn-outline-success">
+                <button
+                    className="btn btn-outline-danger m-2"
+                    onClick={(e) => {
+                        e.preventDefault();
+                        router.push(`/review/${tmdb_id}`);
+                    }}
+                >
+                    Back
+                </button>
+                <button type="submit" className="btn btn-outline-success m-2">
                     Create Review
                 </button>
             </form>

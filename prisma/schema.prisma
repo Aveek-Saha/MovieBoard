@@ -85,7 +85,6 @@ model MovieBoard {
 
 model Review {
     id            String     @id @default(cuid())
-    heading       String
     body          String
     created_on    DateTime   @default(now())
     last_modified DateTime   @updatedAt
