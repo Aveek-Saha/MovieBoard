@@ -1,11 +1,7 @@
-import Vibrant from "node-vibrant";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendar, faClock } from "@fortawesome/free-regular-svg-icons";
-
 import StarRating from "@/components/movies/StarRating";
 import Review from "@/components/reviews/Review";
+import MovieSidebar from "@/components/movies/MovieSidebar";
 import prisma from "@/prisma/prisma";
-import { getMovie, toHoursAndMinutes, longDate } from "@/components/utils";
 
 async function getMovieBoard(movieId) {
     const movieBoard = await prisma.MovieBoard.findUnique({
@@ -57,46 +53,11 @@ export default async function Page({ params }) {
         numFollowers = movieBoard._count.followers;
     }
 
-    const movie = await getMovie(params.movieId);
-
-    let imgUrl;
-    if (movie.poster_path != null) {
-        imgUrl = `https://image.tmdb.org/t/p/w500/${movie.poster_path}`;
-    } else {
-        imgUrl = `https://placehold.co/500x714/222222/222222.jpg?text=Img`;
-    }
-    const palette = await Vibrant.from(imgUrl).getPalette();
-
     return (
         <>
             <div className="row">
                 <div className="col-3 text-center">
-                    <img src={imgUrl} className="img-fluid w-75" alt="..." />
-                    <h1 className="card-title">{movie.title}</h1>
-                    <h6 className="card-subtitle mb-2 mt-3">
-                        {movie.genres?.map((g) => {
-                            return (
-                                <span
-                                    key={g.id}
-                                    className="badge rounded-pill me-1"
-                                    style={{
-                                        backgroundColor: palette.Muted.hex,
-                                    }}
-                                >
-                                    {g.name}
-                                </span>
-                            );
-                        })}
-                    </h6>
-                    <p className="card-text">
-                        <span className="text-body-secondary">
-                            <FontAwesomeIcon icon={faCalendar} />{" "}
-                            {longDate(movie.release_date)}
-                            &nbsp;&nbsp;•&nbsp;&nbsp;
-                            <FontAwesomeIcon icon={faClock} />{" "}
-                            {toHoursAndMinutes(movie.runtime)}
-                        </span>
-                    </p>
+                    <MovieSidebar movieId={params.movieId} />
                 </div>
                 <div className="col-6">
                     <h1>Reviews</h1>

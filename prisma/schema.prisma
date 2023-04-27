@@ -47,7 +47,7 @@ model User {
     accounts      Account[]
     sessions      Session[]
     username      String?    @unique
-    region        String?
+    region        String?    @default("US")
     role          Role       @default(reviewer)
     reviewer      Reviewer?
     moderator     Moderator?

@@ -35,8 +35,7 @@ export default function CreateReview({ tmdb_id }) {
     return (
         <div className="col-6">
             <form onSubmit={(e) => create(e)}>
-                <h2>Movie Name</h2>
-                <h5>New Review</h5>
+                <h2>New Review</h2>
                 <div className="star-rating mt-3 mb-3">
                     {[...Array(10)].map((star, index) => {
                         index += 1;
