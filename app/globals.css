@@ -7,8 +7,9 @@ html {
     --textInPrimary: #000;
     --textInSecondary: #fff;
     --footerBackground: #00e5ff;
-    --cardBackground: #2b2b2b;
+    --cardBackground: #1e1e1e;
     --cardText: #fff;
+    --cardBorder: #333333;
     --emojiCodeText: #fff;
     --cardShadow: none;
     --notificationText: #fff;
@@ -57,6 +58,12 @@ html {
 }
 .card {
     background-color: var(--cardBackground);
+}
+
+.list-group-item {
+    background-color: var(--cardBackground);
+    color: var(--cardText);
+    border-color: var(--cardBorder);
 }
 .card_list {
     background-color: var(--cardBackground);

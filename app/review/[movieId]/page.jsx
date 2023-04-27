@@ -19,18 +19,37 @@ async function getMovieBoard(movieId) {
                     },
                 },
             },
+            _count: {
+                select: { followers: true },
+            },
         },
     });
     return movieBoard;
 }
 
+async function getAverageScore(movieId) {
+    const avgScore = await prisma.Review.aggregate({
+        where: {
+            tmdb_id: movieId,
+        },
+        _avg: {
+            rating: true,
+        },
+        _count: {
+            rating: true,
+        },
+    });
+    return avgScore;
+}
+
 export default async function Page({ params }) {
-    const rating = 7.5;
+    const avgScore = await getAverageScore(params.movieId);
+    const rating = Math.round(avgScore._avg.rating * 10) / 10;
     const maxRating = 10;
-    const numRating = 20;
-    const numFollowers = 2000;
+    const numRating = avgScore._count.rating;
 
     const movieBoard = await getMovieBoard(params.movieId);
+    const numFollowers = movieBoard._count.followers;
 
     return (
         <>
@@ -73,9 +92,11 @@ export default async function Page({ params }) {
             <div className="row justify-content-center">
                 <div className="col-6">
                     <h1>Reviews</h1>
-                    {movieBoard?.reviews?.map((review) => {
-                        return <Review review={review} />;
-                    })}
+                    <div className="list-group mb-3">
+                        {movieBoard?.reviews?.map((review) => {
+                            return <Review key={review.id} review={review} />;
+                        })}
+                    </div>
                 </div>
             </div>
         </>

@@ -1,28 +1,70 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+    faHeart as faHeartSolid,
+    faBookmark,
+    faTrash,
+    faStar,
+} from "@fortawesome/free-solid-svg-icons";
+import {
+    faComment,
+    faHeart as faHeartReg,
+} from "@fortawesome/free-regular-svg-icons";
+
 export default async function Review({ review }) {
     const session = await getServerSession(authOptions);
     return (
-        <div className="card mb-2">
-            <div className="card-body">
-                <h5 className="card-title">{review.heading}</h5>
-                <h6 className="card-subtitle mb-2 text-body-secondary">
-                    {review.user.user.name}
-                </h6>
-                <span className="badge rounded-pill text-bg-secondary fw-normal">
-                    {review.created_on
-                        .toDateString()
-                        .split(" ")
-                        .slice(1)
-                        .join(" ")}
-                </span>
-                <p className="card-text">Rating {review.rating}</p>
-                <p className="card-text">Likes {review.likes}</p>
-                {review.user.user.id === session?.user?.id && (
-                    <p className="card-text">Delete</p>
-                )}
-                <p className="card-text">{review.body}</p>
+        <div className="list-group-item p-3">
+            <div className="row">
+                <div className="col-1 p-0 ps-2">
+                    <img
+                        src={`${review.user.user.image}`}
+                        className="rounded-circle img-fluid"
+                        width="48px"
+                        height="48px"
+                        alt="avatar"
+                    />
+                </div>
+                <div className="col-11 ps-3">
+                    <div className="row">
+                        <div className="col-11">
+                            <div className="fw-bolder">
+                                {review.user.user.name}
+                                <span className="fw-normal badge text-bg-secondary ps-2 pe-2 ms-2">
+                                    <FontAwesomeIcon icon={faStar} />{" "}
+                                    {review.rating}
+                                </span>
+                            </div>
+                            <span className="text-muted">
+                                {review.created_on
+                                    .toDateString()
+                                    .split(" ")
+                                    .slice(1)
+                                    .join(" ")}
+                            </span>
+                        </div>
+                        <div className="col-1">
+                            {session?.user?.id === review.userId && (
+                                <button className="btn btn-link text-muted text-decoration-none float-end p-0">
+                                    <FontAwesomeIcon
+                                        icon={faTrash}
+                                        // onClick={() => deleteTuitHandler(post._id)}
+                                    />
+                                </button>
+                            )}
+                        </div>
+                    </div>
+                    {review.body}
+
+                    <div>
+                        <button className="btn btn-link text-muted text-decoration-none">
+                            <FontAwesomeIcon icon={faHeartReg} />
+                            <span> {review.likes}</span>
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     );

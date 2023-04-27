@@ -10,7 +10,6 @@ export default function CreateReview({ tmdb_id }) {
     const [heading, setHeading] = useState("");
     const [body, setBody] = useState("");
     const router = useRouter();
-    // const rating = 8;
 
     const create = async (e) => {
         e.preventDefault();
@@ -36,7 +35,8 @@ export default function CreateReview({ tmdb_id }) {
     return (
         <div className="col-6">
             <form onSubmit={(e) => create(e)}>
-                <h3>New Review</h3>
+                <h2>Movie Name</h2>
+                <h5>New Review</h5>
                 <div className="star-rating mt-3 mb-3">
                     {[...Array(10)].map((star, index) => {
                         index += 1;
