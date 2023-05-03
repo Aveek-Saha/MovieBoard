@@ -1,8 +1,12 @@
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
+
 import StarRating from "@/components/movies/StarRating";
 import Review from "@/components/reviews/Review";
 import MovieSidebar from "@/components/movies/MovieSidebar";
 import Follow from "@/components/movies/Follow";
 import prisma from "@/prisma/prisma";
+import Link from "next/link";
 
 async function getMovieBoard(movieId) {
     const movieBoard = await prisma.MovieBoard.findUnique({
@@ -17,6 +21,9 @@ async function getMovieBoard(movieId) {
                             user: true,
                         },
                     },
+                },
+                orderBy: {
+                    created_on: "desc",
                 },
             },
             followers: {
@@ -48,6 +55,8 @@ async function getAverageScore(movieId) {
 }
 
 export default async function Page({ params }) {
+    const session = await getServerSession(authOptions);
+
     const avgScore = await getAverageScore(params.movieId);
     const rating = Math.round(avgScore._avg.rating * 10) / 10;
     const maxRating = 10;
@@ -55,7 +64,7 @@ export default async function Page({ params }) {
 
     const movieBoard = await getMovieBoard(params.movieId);
     let numFollowers = 0;
-    let followers;
+    let followers = [];
     if (movieBoard) {
         numFollowers = movieBoard._count.followers;
         followers = movieBoard.followers;
@@ -93,16 +102,28 @@ export default async function Page({ params }) {
                             <p className="card-text">
                                 <strong>{numFollowers}</strong> Followers
                             </p>
-                            <a
-                                href={`/review/${params.movieId}/new`}
-                                className="btn btn-outline-success m-2"
-                            >
-                                Write Review
-                            </a>
-                            <Follow
-                                movieId={params.movieId}
-                                followers={followers}
-                            />
+                            {session && (
+                                <>
+                                    <Link
+                                        href={`/review/${params.movieId}/new`}
+                                        className="btn btn-outline-success m-2"
+                                    >
+                                        Write Review
+                                    </Link>
+                                    <Follow
+                                        movieId={params.movieId}
+                                        followers={followers}
+                                    />
+                                </>
+                            )}
+                            {!session && (
+                                <Link
+                                    href={`/user/login`}
+                                    className="btn btn-outline-success m-2"
+                                >
+                                    Login to review
+                                </Link>
+                            )}
                         </div>
                     </div>
                 </div>
