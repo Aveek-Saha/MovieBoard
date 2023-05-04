@@ -13,7 +13,7 @@ export default function CreateReview({ tmdb_id }) {
     const create = async (e) => {
         e.preventDefault();
         if (body.length >= 1 && rating > 0) {
-            const res = await fetch(`/api/review/${tmdb_id}`, {
+            const res = await fetch(`/api/review/new/${tmdb_id}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

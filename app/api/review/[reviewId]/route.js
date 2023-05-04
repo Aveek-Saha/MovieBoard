@@ -5,8 +5,7 @@ import { NextResponse } from "next/server";
 
 export async function DELETE(request, { params }) {
     const session = await getServerSession(authOptions);
-    const req = await request.json();
-    const { reviewId } = req;
+    const reviewId = params.reviewId;
     if (session) {
         const review = await prisma.Review.findUnique({
             where: {

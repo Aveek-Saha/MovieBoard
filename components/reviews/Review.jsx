@@ -4,16 +4,16 @@ import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faHeart as faHeartSolid,
-    faBookmark,
-    faTrash,
     faStar,
 } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as faHeartReg } from "@fortawesome/free-regular-svg-icons";
 
 import DeleteReview from "./DeleteReview";
+import Like from "./Like";
 
 export default async function Review({ review }) {
     const session = await getServerSession(authOptions);
+    const { last_modified, created_on, ...review_prop } = review;
     return (
         <div className="list-group-item p-3">
             <div className="row">
@@ -64,10 +64,7 @@ export default async function Review({ review }) {
                     {review.body}
 
                     <div>
-                        <button className="btn btn-link text-muted text-decoration-none">
-                            <FontAwesomeIcon icon={faHeartReg} />
-                            <span> {review.likes}</span>
-                        </button>
+                        <Like review={review_prop} />
                     </div>
                 </div>
             </div>

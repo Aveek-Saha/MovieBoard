@@ -21,6 +21,11 @@ async function getMovieBoard(movieId) {
                             user: true,
                         },
                     },
+                    likedBy: true,
+
+                    _count: {
+                        select: { likedBy: true },
+                    },
                 },
                 orderBy: {
                     created_on: "desc",

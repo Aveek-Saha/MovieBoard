@@ -8,16 +8,10 @@ export default function DeleteReview({ reviewId, tmdb_id }) {
     const router = useRouter();
     
     const deleteReview = async (reviewId) => {
-        const res = await fetch(`/api/review`, {
+        const res = await fetch(`/api/review/${reviewId}`, {
             method: "DELETE",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                reviewId,
-            }),
         });
-        router.push(`/review/${tmdb_id}`);
+        router.refresh();
     };
     return (
         <button className="btn btn-link text-muted text-decoration-none float-end p-0">

@@ -78,7 +78,6 @@ model Moderator {
 model MovieBoard {
     tmdb_id    String      @id
     followers  Reviewer[]
-    rating     Float
     reviews    Review[]
     moderators Moderator[]
 }
@@ -93,7 +92,6 @@ model Review {
     userId        String
     user          Reviewer   @relation(fields: [userId], references: [userId], onDelete: Cascade, name: "UserReview")
     rating        Int
-    likes         Int
     likedBy       Reviewer[] @relation(name: "UserLiked")
 
     @@unique(fields: [id, userId], name: "review_id")
