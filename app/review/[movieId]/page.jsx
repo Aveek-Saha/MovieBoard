@@ -123,7 +123,7 @@ export default async function Page({ params }) {
                             )}
                             {!session && (
                                 <Link
-                                    href={`/user/login`}
+                                    href={`/login`}
                                     className="btn btn-outline-success m-2"
                                 >
                                     Login to review

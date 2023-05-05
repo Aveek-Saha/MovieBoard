@@ -2,11 +2,9 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-    faHeart as faHeartSolid,
-    faStar,
-} from "@fortawesome/free-solid-svg-icons";
-import { faHeart as faHeartReg } from "@fortawesome/free-regular-svg-icons";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
+
+import Link from "next/link";
 
 import DeleteReview from "./DeleteReview";
 import Like from "./Like";
@@ -18,19 +16,29 @@ export default async function Review({ review }) {
         <div className="list-group-item p-3">
             <div className="row">
                 <div className="col-1 p-0 ps-2">
-                    <img
-                        src={`${review.user.user.image}`}
-                        className="rounded-circle img-fluid"
-                        width="48px"
-                        height="48px"
-                        alt="avatar"
-                    />
+                    <Link
+                        href={`/profile/${review.user.user.id}`}
+                        className="link_img"
+                    >
+                        <img
+                            src={`${review.user.user.image}`}
+                            className="rounded-circle img-fluid"
+                            width="48px"
+                            height="48px"
+                            alt="avatar"
+                        />
+                    </Link>
                 </div>
                 <div className="col-11 ps-3">
                     <div className="row">
                         <div className="col-11">
                             <div className="fw-bolder">
-                                {review.user.user.name}
+                                <Link
+                                    href={`/profile/${review.user.user.id}`}
+                                    className="link"
+                                >
+                                    {review.user.user.name}
+                                </Link>
                                 <span
                                     className={`badge text-bg-${
                                         review.rating > 6

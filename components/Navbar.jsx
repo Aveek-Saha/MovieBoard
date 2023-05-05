@@ -28,7 +28,7 @@ export default async function Navbar() {
                     </li>
                     {session?.user && (
                         <li className="nav-item">
-                            <a className="nav-link" href="/user">
+                            <a className="nav-link" href="/profile">
                                 Profile
                             </a>
                         </li>
@@ -36,7 +36,7 @@ export default async function Navbar() {
                 </ul>
 
                 {!session?.user && (
-                    <a className="navbar-text header__item" href="/user/login">
+                    <a className="navbar-text header__item" href="/profile/login">
                         Login
                     </a>
                 )}

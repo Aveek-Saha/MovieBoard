@@ -18,7 +18,7 @@ export default function Like({ review }) {
             });
             router.refresh();
         } else {
-            router.push("/user/login");
+            router.push("/login");
         }
     };
     const liked = review.likedBy.find((el) => el.userId === session?.user?.id);

@@ -30,7 +30,15 @@ html {
     background-color: var(--background);
     color: var(--cardText);
 }
-.a {
+.link {
+    text-decoration: none;
+    color: inherit;
+}
+.link:hover {
+    text-decoration: underline;
+    color: inherit;
+}
+.link_img {
     text-decoration: none;
     color: inherit;
 }
