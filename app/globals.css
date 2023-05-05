@@ -37,6 +37,7 @@ html {
 .link:hover {
     text-decoration: underline;
     color: inherit;
+    cursor: pointer;
 }
 .link_img {
     text-decoration: none;
