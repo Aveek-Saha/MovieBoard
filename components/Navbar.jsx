@@ -36,7 +36,7 @@ export default async function Navbar() {
                 </ul>
 
                 {!session?.user && (
-                    <a className="navbar-text header__item" href="/profile/login">
+                    <a className="navbar-text header__item" href="/login">
                         Login
                     </a>
                 )}
