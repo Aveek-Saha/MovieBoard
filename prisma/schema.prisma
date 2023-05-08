@@ -46,7 +46,9 @@ model User {
     image         String?
     accounts      Account[]
     sessions      Session[]
-    username      String?    @unique
+    full_name     String?    @default("")
+    created_on    DateTime   @default(now())
+    bio           String?    @default("")
     region        String?    @default("US")
     role          Role       @default(reviewer)
     reviewer      Reviewer?

@@ -28,7 +28,7 @@ export default async function Navbar() {
                     </li>
                     {session?.user && (
                         <li className="nav-item">
-                            <a className="nav-link" href="/profile">
+                            <a className="nav-link" href={`/profile/${session?.user.id}`}>
                                 Profile
                             </a>
                         </li>

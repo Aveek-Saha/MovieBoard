@@ -43,6 +43,14 @@ export const authOptions = {
                         user: { connect: { id: user.id } },
                     },
                 });
+                await prisma.User.update({
+                    where: {
+                        id: user.id,
+                    },
+                    data: {
+                        full_name: user.name,
+                    },
+                });
             }
         },
     },

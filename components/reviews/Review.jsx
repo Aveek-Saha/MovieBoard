@@ -12,6 +12,7 @@ import Like from "./Like";
 export default async function Review({ review }) {
     const session = await getServerSession(authOptions);
     const { last_modified, created_on, ...review_prop } = review;
+    
     return (
         <div className="list-group-item p-3">
             <div className="row">
@@ -37,7 +38,7 @@ export default async function Review({ review }) {
                                     href={`/profile/${review.user.user.id}`}
                                     className="link"
                                 >
-                                    {review.user.user.name}
+                                    {review.user.user.full_name}
                                 </Link>
                                 <span
                                     className={`badge text-bg-${
@@ -53,8 +54,9 @@ export default async function Review({ review }) {
                                 </span>
                             </div>
                             <span className="text-muted">
+                                @ {review.user.user.name}
+                                {" • "}
                                 {review.created_on
-                                    .toDateString()
                                     .split(" ")
                                     .slice(1)
                                     .join(" ")}

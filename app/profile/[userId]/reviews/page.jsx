@@ -7,14 +7,23 @@ import NavSidebar from "@/components/profile/NavSidebar";
 import Review from "@/components/reviews/Review";
 
 async function getReviews(userId) {
-    const reviews = await prisma.Review.findMany({
+    let reviews = await prisma.Review.findMany({
         where: {
             userId: userId,
         },
         include: {
             user: {
                 select: {
-                    user: true,
+                    user: {
+                        select: {
+                            id: true,
+                            name: true,
+                            email: true,
+                            image: true,
+                            full_name: true,
+                            role: true,
+                        },
+                    },
                 },
             },
             likedBy: true,
@@ -26,6 +35,13 @@ async function getReviews(userId) {
         orderBy: {
             created_on: "desc",
         },
+    });
+    reviews = reviews.map((review) => {
+        return {
+            ...review,
+            last_modified: review.last_modified.toDateString(),
+            created_on: review.created_on.toDateString(),
+        };
     });
     return reviews;
 }

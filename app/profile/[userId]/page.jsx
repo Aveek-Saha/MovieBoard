@@ -3,6 +3,14 @@ import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
 import prisma from "@/prisma/prisma";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+    faLocationDot,
+    faAt,
+    faPenNib,
+} from "@fortawesome/free-solid-svg-icons";
+import { faCalendar } from "@fortawesome/free-regular-svg-icons";
+
 import NavSidebar from "@/components/profile/NavSidebar";
 
 async function getUserDetails(userId) {
@@ -10,17 +18,20 @@ async function getUserDetails(userId) {
         where: {
             id: userId,
         },
-    });
-    return user;
-}
-
-async function getReviewerDetails(userId) {
-    const reviewer = await prisma.Reviewer.findUnique({
-        where: {
-            userId: userId,
+        include: {
+            reviewer: {
+                include: {
+                    reviews: true,
+                    _count: {
+                        select: {
+                            reviews: true,
+                        },
+                    },
+                },
+            },
         },
     });
-    return reviewer;
+    return user;
 }
 
 export default async function User({ params }) {
@@ -28,20 +39,68 @@ export default async function User({ params }) {
     const userId = params.userId;
 
     const user = await getUserDetails(userId);
-    const reviewer = await getReviewerDetails(userId);
     return (
-        <div className="row justify-content-center">
+        <div className="row">
+            <div className="col-1"></div>
             <div className="col-2">
-                <NavSidebar userId={userId}/>
+                <NavSidebar userId={userId} />
             </div>
-            <div className="col-8">
-                <h1>{user.name}</h1>
-                <h1>{user.role}</h1>
-                <h1>{user.username}</h1>
-                <h1>{user.email}</h1>
-                <br />
+            <div className="col-6">
+                <img src={user.image} className="rounded-circle" />
 
-                <h1>{reviewer.id}</h1>
+                <div className="px-3">
+                    <h5 className="fw-bold mb-0 mt-3 mb-1">{user.full_name}</h5>
+                    <div className="text-muted">
+                        <FontAwesomeIcon icon={faAt} /> {user.name}
+                    </div>
+
+                    <div className="mt-2">{user.bio}</div>
+
+                    <div className="text-muted mt-2">
+                        <span className="me-4">
+                            <FontAwesomeIcon
+                                icon={faPenNib}
+                                className={"me-2"}
+                            />
+                            <span className="fw-bold">
+                                {user.reviewer._count.reviews}{" "}
+                            </span>
+                            <span className="text-muted">Reviews</span>
+                        </span>
+                        <span className="me-4">
+                            <FontAwesomeIcon
+                                icon={faCalendar}
+                                className={"me-2"}
+                            />
+                            Joined{" "}
+                            {user.created_on
+                                .toDateString()
+                                .split(" ")
+                                .slice(1)
+                                .join(" ")}
+                        </span>
+                        <span className="me-4">
+                            <FontAwesomeIcon
+                                icon={faLocationDot}
+                                className={"me-2"}
+                            />
+                            {user.region}
+                        </span>
+                    </div>
+
+                    {/* <div className="mt-2">
+                        <span className="pe-4">
+                            <span className="fw-bold">{20} </span>
+                            <span className="text-muted">Followers</span>
+                        </span>
+                        <span className=" text-muted pe-4">
+                            <span className="fw-bold">
+                                {user.reviewer._count.reviews}{" "}
+                            </span>
+                            <span className="text-muted">Reviews</span>
+                        </span>
+                    </div> */}
+                </div>
             </div>
         </div>
     );

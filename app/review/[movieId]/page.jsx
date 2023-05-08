@@ -18,7 +18,16 @@ async function getMovieBoard(movieId) {
                 include: {
                     user: {
                         select: {
-                            user: true,
+                            user: {
+                                select: {
+                                    id: true,
+                                    name: true,
+                                    email: true,
+                                    image: true,
+                                    full_name: true,
+                                    role: true,
+                                },
+                            },
                         },
                     },
                     likedBy: true,
@@ -75,6 +84,14 @@ export default async function Page({ params }) {
         followers = movieBoard.followers;
     }
 
+    const reviews = movieBoard?.reviews?.map((review) => {
+        return {
+            ...review,
+            last_modified: review.last_modified.toDateString(),
+            created_on: review.created_on.toDateString(),
+        };
+    });
+
     return (
         <>
             <div className="row">
@@ -84,7 +101,7 @@ export default async function Page({ params }) {
                 <div className="col-6">
                     <h1>Reviews</h1>
                     <div className="list-group list-group-flush mb-3">
-                        {movieBoard?.reviews?.map((review) => {
+                        {reviews?.map((review) => {
                             return <Review key={review.id} review={review} />;
                         })}
                     </div>

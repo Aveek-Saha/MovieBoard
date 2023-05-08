@@ -1,47 +1,16 @@
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/pages/api/auth/[...nextauth]";
+"use client";
 
-import prisma from "@/prisma/prisma";
-
-async function getUserDetails(session) {
-    const user = await prisma.User.findUnique({
-        where: {
-            id: session.user.id,
-        },
-    });
-    return user;
-}
-
-async function getReviewerDetails(session) {
-    const reviewer = await prisma.Reviewer.findUnique({
-        where: {
-            userId: session.user.id,
-        },
-    });
-    return reviewer;
-}
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default async function User() {
-    const session = await getServerSession(authOptions);
+    const { data: session, status } = useSession();
+    const router = useRouter();
 
     if (!session) {
-        return(
-            <h1>Please Login</h1>
-        )
+        router.push(`/login`);
     } else {
-        
-    const user = await getUserDetails(session);
-    const reviewer = await getReviewerDetails(session);
-    return (
-        <div className="row justify-content-center">
-            <h1>{user.name}</h1>
-            <h1>{user.role}</h1>
-            <h1>{user.username}</h1>
-            <h1>{user.email}</h1>
-            <br />
-
-            <h1>{reviewer.id}</h1>
-        </div>
-    );
+        const router = useRouter();
+        router.push(`/profile/${session?.user.id}`);
     }
 }
