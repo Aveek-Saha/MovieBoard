@@ -19,7 +19,6 @@ export async function PUT(request, { params }) {
             movieBoard = await prisma.MovieBoard.create({
                 data: {
                     tmdb_id: params.movieId,
-                    rating: 0,
                 },
             });
             if (!movieBoard) {

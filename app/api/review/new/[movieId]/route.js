@@ -18,7 +18,6 @@ export async function POST(request, { params }) {
             const mb = await prisma.MovieBoard.create({
                 data: {
                     tmdb_id: params.movieId,
-                    rating: 0,
                 },
             });
             if (!mb) {
@@ -48,7 +47,6 @@ export async function POST(request, { params }) {
             data: {
                 body: body,
                 rating: rating,
-                likes: 0,
                 user: { connect: { userId: session?.user?.id } },
                 movieBoard: { connect: { tmdb_id: params.movieId } },
             },

@@ -62,7 +62,16 @@ html {
     background: var(--scrollbar-thumb-hover);
 }
 
-.a {
+.link {
+    text-decoration: none;
+    color: inherit;
+}
+.link:hover {
+    text-decoration: underline;
+    color: inherit;
+    cursor: pointer;
+}
+.link_img {
     text-decoration: none;
     color: inherit;
 }
@@ -125,6 +134,13 @@ html {
     background-color: var(--cardBackground);
     color: var(--text);
     box-shadow: none;
+}
+.inputs {
+    background-color: var(--cardBackground);
+    color: var(--text);
+    border-radius: 4px;
+    border: 0;
+    padding: 0.7rem;
 }
 .search {
     background-color: var(--cardBackground);

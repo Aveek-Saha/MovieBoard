@@ -9,7 +9,11 @@ import Review from "@/components/reviews/Review";
 async function getReviews(userId) {
     let reviews = await prisma.Review.findMany({
         where: {
-            userId: userId,
+            likedBy: {
+                some: {
+                    userId: userId,
+                },
+            },
         },
         include: {
             user: {
@@ -46,8 +50,12 @@ async function getReviews(userId) {
     return reviews;
 }
 
-export default async function Reviews({ params }) {
-    const userId = params.userId;
+export default async function Page() {
+    const session = await getServerSession(authOptions);
+    if (!session) {
+        return <h1>Please Login</h1>;
+    }
+    const userId = session.user.id;
 
     const reviews = await getReviews(userId);
     return (

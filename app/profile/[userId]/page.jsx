@@ -41,12 +41,18 @@ export default async function User({ params }) {
     const user = await getUserDetails(userId);
     return (
         <div className="row">
-            <div className="col-1"></div>
-            <div className="col-2">
+            <div className="col-3 d-flex justify-content-center">
                 <NavSidebar userId={userId} />
             </div>
             <div className="col-6">
-                <img src={user.image} className="rounded-circle" />
+                <div className="row">
+                    <div className="col-5">
+                        <img
+                            src={user.image}
+                            className="rounded-circle img-fluid w-50"
+                        />
+                    </div>
+                </div>
 
                 <div className="px-3">
                     <h5 className="fw-bold mb-0 mt-3 mb-1">{user.full_name}</h5>
@@ -87,19 +93,6 @@ export default async function User({ params }) {
                             {user.region}
                         </span>
                     </div>
-
-                    {/* <div className="mt-2">
-                        <span className="pe-4">
-                            <span className="fw-bold">{20} </span>
-                            <span className="text-muted">Followers</span>
-                        </span>
-                        <span className=" text-muted pe-4">
-                            <span className="fw-bold">
-                                {user.reviewer._count.reviews}{" "}
-                            </span>
-                            <span className="text-muted">Reviews</span>
-                        </span>
-                    </div> */}
                 </div>
             </div>
         </div>
