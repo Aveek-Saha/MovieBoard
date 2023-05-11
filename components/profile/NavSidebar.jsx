@@ -10,7 +10,7 @@ import {
     faHeart,
     faPenToSquare,
 } from "@fortawesome/free-regular-svg-icons";
-import { faFilm, faLock, faPenNib } from "@fortawesome/free-solid-svg-icons";
+import { faFilm, faPenNib } from "@fortawesome/free-solid-svg-icons";
 
 export default function NavSidebar({ userId }) {
     const pathname = usePathname();
@@ -70,35 +70,6 @@ export default function NavSidebar({ userId }) {
                         <div className="m-1 fs-5">
                             <FontAwesomeIcon icon={faHeart} className="me-3" />
                             <span>Likes</span>
-                        </div>
-                    </Link>
-                    <Link
-                        href={`/profile/private`}
-                        className={`link list-group-item border-0 ${
-                            active === "private"
-                                ? "fw-bold text-decoration-underline"
-                                : ""
-                        }`}
-                    >
-                        <div className="m-1 fs-5">
-                            <FontAwesomeIcon icon={faLock} className="me-3" />
-                            <span>Private</span>
-                        </div>
-                    </Link>
-                    <Link
-                        href={`/profile/edit`}
-                        className={`link list-group-item border-0 ${
-                            active === "edit"
-                                ? "fw-bold text-decoration-underline"
-                                : ""
-                        }`}
-                    >
-                        <div className="m-1 fs-5">
-                            <FontAwesomeIcon
-                                icon={faPenToSquare}
-                                className="me-3"
-                            />
-                            <span>Edit Profile</span>
                         </div>
                     </Link>
                 </>

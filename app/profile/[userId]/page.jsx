@@ -1,5 +1,6 @@
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import Link from "next/link";
 
 import prisma from "@/prisma/prisma";
 
@@ -8,8 +9,11 @@ import {
     faLocationDot,
     faAt,
     faPenNib,
+    faEnvelope,
+    faUserGear,
+    faLock,
 } from "@fortawesome/free-solid-svg-icons";
-import { faCalendar } from "@fortawesome/free-regular-svg-icons";
+import { faCalendar, faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 
 import NavSidebar from "@/components/profile/NavSidebar";
 
@@ -55,7 +59,7 @@ export default async function User({ params }) {
                 </div>
 
                 <div className="px-3">
-                    <h5 className="fw-bold mb-0 mt-3 mb-1">{user.full_name}</h5>
+                    <h4 className="fw-bold mt-3 mb-1">{user.full_name}</h4>
                     <div className="text-muted">
                         <FontAwesomeIcon icon={faAt} /> {user.name}
                     </div>
@@ -94,6 +98,48 @@ export default async function User({ params }) {
                         </span>
                     </div>
                 </div>
+                {session.user.id === userId && (
+                    <>
+                        <div className="px-3 mt-4 mb-3">
+                            <div className="mb-3 h5">
+                                <FontAwesomeIcon
+                                    icon={faLock}
+                                    className={"me-2"}
+                                />
+                                <span className="fw-bold">Private</span>
+                            </div>
+
+                            <div className="text-muted mt-2">
+                                <span className="me-4">
+                                    <FontAwesomeIcon
+                                        icon={faEnvelope}
+                                        className={"me-2"}
+                                    />
+                                    <span className="text-muted">
+                                        {user.email}
+                                    </span>
+                                </span>
+                                <span className="me-4 text-capitalize">
+                                    <FontAwesomeIcon
+                                        icon={faUserGear}
+                                        className={"me-2"}
+                                    />
+                                    {user.role}
+                                </span>
+                            </div>
+                        </div>
+                        <Link
+                            href={`/profile/edit`}
+                            className="btn btn-outline-success m-2"
+                        >
+                            <FontAwesomeIcon
+                                icon={faPenToSquare}
+                                className="me-2"
+                            />
+                            Edit Profile
+                        </Link>
+                    </>
+                )}
             </div>
         </div>
     );

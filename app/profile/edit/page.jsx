@@ -1,15 +1,8 @@
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import Link from "next/link";
 
 import prisma from "@/prisma/prisma";
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-    faLocationDot,
-    faAt,
-    faPenNib,
-} from "@fortawesome/free-solid-svg-icons";
-import { faCalendar } from "@fortawesome/free-regular-svg-icons";
 
 import NavSidebar from "@/components/profile/NavSidebar";
 
@@ -45,37 +38,129 @@ export default async function Page() {
     const user = await getUserDetails(userId);
     return (
         <div className="row">
-            <div className="col-1"></div>
-            <div className="col-2">
+            <div className="col-3 d-flex justify-content-center">
                 <NavSidebar userId={userId} />
             </div>
             <div className="col-6">
-                <img src={user.image} className="rounded-circle" />
+                <div className="row mb-3">
+                    <div className="col-5">
+                        <img
+                            src={user.image}
+                            className="rounded-circle img-fluid w-50"
+                        />
+                    </div>
+                </div>
 
-                <div className="px-3 mt-3">
-                    <label className="fw-bold text-muted">Name</label>
-                    <input
-                        type="text"
-                        className="form-control mb-3 inputs"
-                        // defaultValue={userName}
-                        // onChange={(event) => setUserName(event.target.value)}
-                    />
-                    <label className="fw-bold text-muted">Bio</label>
-                    <textarea
-                        rows={3}
-                        className="form-control mb-3 inputs"
-                        // value={bio}
-                        // onChange={(event) => setBio(event.target.value)}
-                    />
-                    <label className="fw-bold text-muted">Location</label>
-                    <input
-                        type="text"
-                        className="form-control mb-3 inputs"
-                        // defaultValue={location}
-                        // onChange={(event) => setLocation(event.target.value)}
-                    />
-                    <button type="button" className="btn btn-outline-danger">
-                        Enable Moderator mode
+                <div className="mb-3 row">
+                    <label for="fullName" className="col-sm-2 col-form-label">
+                        Name
+                    </label>
+                    <div className="col-sm-10">
+                        <input
+                            type="text"
+                            readonly
+                            className="form-control-plaintext text-muted"
+                            id="fullName"
+                            value={user.full_name}
+                        />
+                    </div>
+                </div>
+                <div className="mb-3 row">
+                    <label for="handle" className="col-sm-2 col-form-label">
+                        Handle
+                    </label>
+                    <div className="col-sm-10">
+                        <div className="input-group">
+                            <span
+                                className="input-group-text input_highlight text-muted ps-2 pe-2 pt-0 pb-0"
+                                id="handle"
+                            >
+                                @
+                            </span>
+                            <input
+                                type="text"
+                                className="form-control inputs"
+                                id="handle"
+                                value={user.name}
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div className="mb-3 row">
+                    <label
+                        for="staticEmail"
+                        className="col-sm-2 col-form-label"
+                    >
+                        Email
+                    </label>
+                    <div className="col-sm-10">
+                        <input
+                            type="text"
+                            readonly
+                            className="form-control-plaintext text-muted"
+                            id="staticEmail"
+                            value={user.email}
+                        />
+                    </div>
+                </div>
+                <div className="mb-3 row">
+                    <label for="bio" className="col-sm-2 col-form-label">
+                        Bio
+                    </label>
+                    <div className="col-sm-10">
+                        <textarea
+                            className="form-control inputs"
+                            id="Bio"
+                            rows={4}
+                            value={user.bio}
+                        />
+                    </div>
+                </div>
+                <div className="mb-3 row">
+                    <label for="region" className="col-sm-2 col-form-label">
+                        Region
+                    </label>
+                    <div className="col-sm-10">
+                        <input
+                            className="form-control form-control inputs"
+                            list="datalistOptions"
+                            id="region"
+                            placeholder="Type to search..."
+                            value={user.region}
+                        />
+                        <datalist id="datalistOptions">
+                            <option value="US">United States</option>
+                            <option value="IN">India</option>
+                            <option value="UK">United Kingdom</option>
+                            <option value="JP">Japan</option>
+                            <option value="DE">Germany</option>
+                        </datalist>
+                    </div>
+                </div>
+                <div className="mb-3 row">
+                    <label for="role" className="col-sm-2 col-form-label">
+                        Role
+                    </label>
+                    <div className="col-sm-10">
+                        <select
+                            className="form-select form-control inputs"
+                            id="role"
+                            value={user.role}
+                        >
+                            <option value="reviewer">Reviewer</option>
+                            <option value="moderator">Moderator</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <Link
+                        href={`/profile/${user.id}`}
+                        className="btn btn-outline-danger m-2"
+                    >
+                        Back
+                    </Link>
+                    <button className="btn btn-outline-success m-2">
+                        Save changes
                     </button>
                 </div>
             </div>

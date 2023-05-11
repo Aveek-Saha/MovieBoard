@@ -140,7 +140,7 @@ html {
     color: var(--text);
     border-radius: 4px;
     border: 0;
-    padding: 0.7rem;
+    /* padding: 0.5rem; */
 }
 .search {
     background-color: var(--cardBackground);
@@ -162,4 +162,9 @@ html {
 }
 .card_movie {
     background-color: var(--background);
+}
+
+.input_highlight {
+    background-color: var(--cardBorder);
+    border: none;
 }
