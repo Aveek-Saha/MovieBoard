@@ -51,17 +51,10 @@ export default async function Reviews({ params }) {
 
     const reviews = await getReviews(userId);
     return (
-        <div className="row">
-            <div className="col-3 d-flex justify-content-center">
-                <NavSidebar userId={userId} />
-            </div>
-            <div className="col-6">
-                <div className="list-group list-group-flush mb-3">
-                    {reviews?.map((review) => {
-                        return <Review key={review.id} review={review} />;
-                    })}
-                </div>
-            </div>
+        <div className="list-group list-group-flush mb-3">
+            {reviews?.map((review) => {
+                return <Review key={review.id} review={review} />;
+            })}
         </div>
     );
 }

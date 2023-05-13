@@ -54,7 +54,7 @@ export default async function Review({ review }) {
                                 </span>
                             </div>
                             <span className="text-muted">
-                                @ {review.user.user.name}
+                                @{review.user.user.name}
                                 {" • "}
                                 {review.created_on
                                     .split(" ")

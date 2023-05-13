@@ -13,6 +13,7 @@ html {
     --footerBackground: #00e5ff;
     --cardBackground: #1e1e1e;
     --cardText: #fff;
+    --cardTextSecondary: #6c757d;
     --cardBorder: #333333;
     --emojiCodeText: #fff;
     --cardShadow: none;
@@ -167,4 +168,19 @@ html {
 .input_highlight {
     background-color: var(--cardBorder);
     border: none;
+}
+
+.profile_tab {
+    background-color: var(--background);
+    border-bottom: none;
+}
+.profile_tab .nav-item .nav-link {
+    text-decoration: none;
+    color: var(--cardTextSecondary);
+}
+.profile_tab .nav-item .nav-link.active {
+    background-color: var(--background);
+    color: var(--cardText);
+    border: none;
+    border-bottom: 3px solid var(--cardText);
 }

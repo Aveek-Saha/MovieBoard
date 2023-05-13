@@ -50,26 +50,19 @@ async function getReviews(userId) {
     return reviews;
 }
 
-export default async function Page() {
+export default async function Page({params}) {
     const session = await getServerSession(authOptions);
-    if (!session) {
-        return <h1>Please Login</h1>;
+    if (!session || params.userId !== session.user.id) {
+        return <h2>Unauthorized</h2>;
     }
     const userId = session.user.id;
 
     const reviews = await getReviews(userId);
     return (
-        <div className="row">
-            <div className="col-3 d-flex justify-content-center">
-                <NavSidebar userId={userId} />
-            </div>
-            <div className="col-6">
-                <div className="list-group list-group-flush mb-3">
-                    {reviews?.map((review) => {
-                        return <Review key={review.id} review={review} />;
-                    })}
-                </div>
-            </div>
+        <div className="list-group list-group-flush mb-3">
+            {reviews?.map((review) => {
+                return <Review key={review.id} review={review} />;
+            })}
         </div>
     );
 }
