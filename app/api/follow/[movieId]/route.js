@@ -33,10 +33,13 @@ export async function PUT(request, { params }) {
                 );
             }
         }
-        const following = movieBoard.followers.find(
-            (el) => el.userId === session?.user?.id
-        );
-        
+        let following = false;
+        if (movieBoard.followers) {
+            following = movieBoard.followers.find(
+                (el) => el.userId === session?.user?.id
+            );
+        }
+
         if (!following) {
             const follow = await prisma.MovieBoard.update({
                 where: {

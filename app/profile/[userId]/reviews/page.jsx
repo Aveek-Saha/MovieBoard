@@ -3,7 +3,6 @@ import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
 import prisma from "@/prisma/prisma";
 
-import NavSidebar from "@/components/profile/NavSidebar";
 import Review from "@/components/reviews/Review";
 
 async function getReviews(userId) {

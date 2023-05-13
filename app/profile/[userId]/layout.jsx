@@ -47,7 +47,7 @@ export default async function ProfileLayout({ params, children }) {
     return (
         <div className="row">
             <div className="col-3 d-flex justify-content-center">
-                <NavSidebar userId={userId} />
+                {/* <NavSidebar userId={userId} /> */}
             </div>
             <div className="col-6">
                 <div className="row">

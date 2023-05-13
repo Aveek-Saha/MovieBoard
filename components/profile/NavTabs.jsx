@@ -11,8 +11,8 @@ export default function NavTabs({ userId }) {
     const active = paths.at(-1);
 
     return (
-        <ul className="nav profile_tab mt-4 mb-3 fw-bold">
-            <li className="nav-item ms-4">
+        <ul className="nav profile_tab mt-4 mb-3 fw-bold nav-justified">
+            <li className="nav-item">
                 <Link
                     className={`nav-link ${
                         active === "reviews" ? "active" : ""
@@ -22,19 +22,25 @@ export default function NavTabs({ userId }) {
                     Reviews
                 </Link>
             </li>
-            <li className="nav-item ms-4">
-                <Link className="nav-link" href="#">
+            <li className="nav-item">
+                <Link
+                    className={`nav-link ${
+                        active === "following" ? "active" : ""
+                    }`}
+                    href={`/profile/${userId}/following`}
+                >
                     Following
                 </Link>
             </li>
 
             {session?.user.id === userId && (
-                <li className="nav-item ms-4">
-                    <Link 
-                    className={`nav-link ms-4 ${
-                        active === "likes" ? "active" : ""
-                    }`}
-                    href={`/profile/${userId}/likes`}>
+                <li className="nav-item">
+                    <Link
+                        className={`nav-link ${
+                            active === "likes" ? "active" : ""
+                        }`}
+                        href={`/profile/${userId}/likes`}
+                    >
                         Likes
                     </Link>
                 </li>
