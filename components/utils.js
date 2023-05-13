@@ -1,3 +1,5 @@
+import prisma from "@/prisma/prisma";
+
 export async function getMovie(movieId) {
     const url = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${process.env.TMDB_API_KEY}&language=en-US`;
     const movie = await fetch(url);
@@ -14,4 +16,27 @@ export function toHoursAndMinutes(totalMinutes) {
 export function longDate(isoDate) {
     const date = new Date(isoDate);
     return date.toDateString().split(" ").slice(1).join(" ");
+}
+
+export async function getFollowing(userId) {
+    let following = await prisma.Reviewer.findUnique({
+        where: {
+            userId: userId,
+        },
+        include: {
+            following: true,
+        },
+    });
+    return following;
+}
+export async function createMovieList(reviewer) {
+    let movieList = [];
+    for (const movieBoard of reviewer.following) {
+        const movie = await getMovie(movieBoard.tmdb_id);
+        const genre_ids = movie.genres.map((genre) => {
+            return genre.id;
+        });
+        movieList.push({ ...movie, genre_ids });
+    }
+    return movieList;
 }
