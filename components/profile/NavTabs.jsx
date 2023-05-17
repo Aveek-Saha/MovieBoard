@@ -45,6 +45,19 @@ export default function NavTabs({ userId }) {
                     </Link>
                 </li>
             )}
+            {session?.user.id === userId &&
+                session?.user.role === "moderator" && (
+                    <li className="nav-item">
+                        <Link
+                            className={`nav-link ${
+                                active === "moderating" ? "active" : ""
+                            }`}
+                            href={`/profile/${userId}/moderating`}
+                        >
+                            Moderating
+                        </Link>
+                    </li>
+                )}
         </ul>
     );
 }

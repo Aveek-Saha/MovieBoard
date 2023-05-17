@@ -12,7 +12,7 @@ import Like from "./Like";
 export default async function Review({ review }) {
     const session = await getServerSession(authOptions);
     const { last_modified, created_on, ...review_prop } = review;
-    
+
     return (
         <div className="list-group-item p-3">
             <div className="row">
@@ -63,7 +63,8 @@ export default async function Review({ review }) {
                             </span>
                         </div>
                         <div className="col-1">
-                            {session?.user?.id === review.userId && (
+                            {(session?.user?.id === review.userId ||
+                                session?.user.role === "moderator") && (
                                 <DeleteReview
                                     reviewId={review.id}
                                     tmdb_id={review.tmdb_id}
@@ -74,7 +75,9 @@ export default async function Review({ review }) {
                     {review.body}
 
                     <div>
-                        <Like review={review_prop} />
+                        {session?.user.role === "reviewer" && (
+                            <Like review={review_prop} />
+                        )}
                     </div>
                 </div>
             </div>

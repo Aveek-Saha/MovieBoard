@@ -5,13 +5,13 @@ import { NextResponse } from "next/server";
 
 export async function PUT(request, { params }) {
     const session = await getServerSession(authOptions);
-    if (session && session.user.role === "reviewer") {
+    if (session && session.user.role === "moderator") {
         let movieBoard = await prisma.MovieBoard.findUnique({
             where: {
                 tmdb_id: params.movieId,
             },
             include: {
-                followers: true,
+                moderators: true,
             },
         });
 
@@ -33,34 +33,34 @@ export async function PUT(request, { params }) {
                 );
             }
         }
-        let following = false;
-        if (movieBoard.followers) {
-            following = movieBoard.followers.find(
+        let moderating = false;
+        if (movieBoard.moderators) {
+            moderating = movieBoard.moderators.find(
                 (el) => el.userId === session?.user?.id
             );
         }
 
-        if (!following) {
+        if (!moderating) {
             const follow = await prisma.MovieBoard.update({
                 where: {
                     tmdb_id: params.movieId,
                 },
                 data: {
-                    followers: { connect: { userId: session?.user?.id } },
+                    moderators: { connect: { userId: session?.user?.id } },
                 },
             });
             return NextResponse.json(follow);
         }
-        const unfollow = await prisma.MovieBoard.update({
+        const unmod = await prisma.MovieBoard.update({
             where: {
                 tmdb_id: params.movieId,
             },
             data: {
-                followers: { disconnect: { userId: session?.user?.id } },
+                moderators: { disconnect: { userId: session?.user?.id } },
             },
         });
 
-        return NextResponse.json(unfollow);
+        return NextResponse.json(unmod);
     }
     return NextResponse.json(
         {

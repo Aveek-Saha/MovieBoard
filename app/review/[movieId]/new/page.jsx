@@ -6,6 +6,9 @@ import MovieSidebar from "@/components/movies/MovieSidebar";
 export default async function Page({ params }) {
     const session = await getServerSession(authOptions);
     if (session) {
+        if (session.user.role !== "reviewer") {
+            return <div>Only reviewers can review movies</div>;
+        }
         return (
             <div className="row">
                 <div className="col-3 text-center">

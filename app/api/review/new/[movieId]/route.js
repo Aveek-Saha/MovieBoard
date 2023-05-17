@@ -7,7 +7,7 @@ export async function POST(request, { params }) {
     const session = await getServerSession(authOptions);
     const req = await request.json();
     const { body, rating } = req;
-    if (session) {
+    if (session && session.user.role === "reviewer") {
         const movieBoard = await prisma.MovieBoard.findUnique({
             where: {
                 tmdb_id: params.movieId,

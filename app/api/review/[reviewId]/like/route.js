@@ -6,7 +6,7 @@ import { NextResponse } from "next/server";
 export async function PUT(request, { params }) {
     const session = await getServerSession(authOptions);
     const reviewId = params.reviewId;
-    if (session) {
+    if (session && session.user.role === "reviewer") {
         const review = await prisma.Review.findUnique({
             where: {
                 id: reviewId,

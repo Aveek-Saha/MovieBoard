@@ -12,7 +12,7 @@ export async function DELETE(request, { params }) {
                 id: reviewId,
             },
         });
-        if (review && session.user.id === review.userId) {
+        if (review && (session.user.id === review.userId || session.user.role === "moderator")) {
             const res = await prisma.Review.delete({
                 where: {
                     id: reviewId,

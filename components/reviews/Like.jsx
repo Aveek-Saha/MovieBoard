@@ -13,10 +13,12 @@ export default function Like({ review }) {
 
     const toggleLike = async (reviewId) => {
         if (session) {
-            const res = await fetch(`/api/review/${reviewId}/like`, {
-                method: "PUT",
-            });
-            router.refresh();
+            if (session.user.role === "reviewer") {
+                const res = await fetch(`/api/review/${reviewId}/like`, {
+                    method: "PUT",
+                });
+                router.refresh();
+            }
         } else {
             router.push("/login");
         }

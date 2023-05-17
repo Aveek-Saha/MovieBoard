@@ -2,21 +2,21 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
 import MovieGrid from "./MovieGrid";
-import { getFollowing, createFollowingMovieList } from "@/components/utils";
+import { getModerating, createModeratingMovieList } from "@/components/utils";
 
-export default async function Following() {
+export default async function Moderating() {
     const session = await getServerSession(authOptions);
     if (!session) {
         return <h1>Please Login</h1>;
     }
     const userId = session.user.id;
 
-    const following = await getFollowing(userId);
-    const movieList = await createFollowingMovieList(following);
+    const moderating = await getModerating(userId);
+    const movieList = await createModeratingMovieList(moderating);
 
     return (
         <>
-            <h1 className="mb-0">Following</h1>
+            <h1 className="mb-0">Moderating</h1>
             <MovieGrid movies={movieList} />
         </>
     );

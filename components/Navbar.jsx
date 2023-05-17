@@ -28,12 +28,21 @@ export default async function Navbar() {
                     </li>
                     {session?.user && (
                         <li className="nav-item">
-                            <a className="nav-link" href={`/profile/${session?.user.id}`}>
+                            <a
+                                className="nav-link"
+                                href={`/profile/${session?.user.id}`}
+                            >
                                 Profile
                             </a>
                         </li>
                     )}
                 </ul>
+
+                {session?.user.role === "moderator" && (
+                    <span className="badge rounded-pill me-3 bg-danger">
+                        Moderator
+                    </span>
+                )}
 
                 {!session?.user && (
                     <a className="navbar-text header__item" href="/login">

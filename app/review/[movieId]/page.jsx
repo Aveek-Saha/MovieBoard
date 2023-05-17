@@ -5,6 +5,7 @@ import StarRating from "@/components/movies/StarRating";
 import Review from "@/components/reviews/Review";
 import MovieSidebar from "@/components/movies/MovieSidebar";
 import Follow from "@/components/movies/Follow";
+import Moderate from "@/components/movies/Moderate";
 import prisma from "@/prisma/prisma";
 import Link from "next/link";
 
@@ -45,6 +46,11 @@ async function getMovieBoard(movieId) {
                     userId: true,
                 },
             },
+            moderators: {
+                select: {
+                    userId: true,
+                },
+            },
             _count: {
                 select: { followers: true },
             },
@@ -79,9 +85,11 @@ export default async function Page({ params }) {
     const movieBoard = await getMovieBoard(params.movieId);
     let numFollowers = 0;
     let followers = [];
+    let moderators = [];
     if (movieBoard) {
         numFollowers = movieBoard._count.followers;
         followers = movieBoard.followers;
+        moderators = movieBoard.moderators;
     }
 
     const reviews = movieBoard?.reviews?.map((review) => {
@@ -124,7 +132,7 @@ export default async function Page({ params }) {
                             <p className="card-text">
                                 <strong>{numFollowers}</strong> Followers
                             </p>
-                            {session && (
+                            {session && session.user.role === "reviewer" && (
                                 <>
                                     <Link
                                         href={`/review/${params.movieId}/new`}
@@ -137,6 +145,12 @@ export default async function Page({ params }) {
                                         followers={followers}
                                     />
                                 </>
+                            )}
+                            {session && session.user.role === "moderator" && (
+                                <Moderate
+                                    movieId={params.movieId}
+                                    moderators={moderators}
+                                />
                             )}
                             {!session && (
                                 <Link
