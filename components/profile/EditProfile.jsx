@@ -3,8 +3,9 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-
 import Link from "next/link";
+
+import countries from "../countries";
 
 export default function EditProfile({ user }) {
     const { data: session, status } = useSession();
@@ -138,11 +139,13 @@ export default function EditProfile({ user }) {
                             onChange={(e) => setRegion(e.target.value)}
                         />
                         <datalist id="datalistOptions">
-                            <option value="US">United States</option>
-                            <option value="IN">India</option>
-                            <option value="UK">United Kingdom</option>
-                            <option value="JP">Japan</option>
-                            <option value="DE">Germany</option>
+                            {Object.keys(countries).map((code) => {
+                                return (
+                                    <option value={code}>
+                                        {countries[code]}
+                                    </option>
+                                );
+                            })}
                         </datalist>
                     </div>
                 </div>

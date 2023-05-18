@@ -15,7 +15,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { faCalendar, faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 
-import NavSidebar from "@/components/profile/NavSidebar";
+import countries from "@/components/countries";
 import NavTabs from "@/components/profile/NavTabs";
 
 async function getUserDetails(userId) {
@@ -46,9 +46,7 @@ export default async function ProfileLayout({ params, children }) {
     const user = await getUserDetails(userId);
     return (
         <div className="row">
-            <div className="col-3 d-flex justify-content-center">
-                {/* <NavSidebar userId={userId} /> */}
-            </div>
+            <div className="col-3 d-flex justify-content-center"></div>
             <div className="col-6">
                 <div className="row">
                     <div className="col-5">
@@ -95,7 +93,7 @@ export default async function ProfileLayout({ params, children }) {
                                 icon={faLocationDot}
                                 className={"me-2"}
                             />
-                            {user.region}
+                            {countries[user.region]}
                         </span>
                     </div>
                 </div>
