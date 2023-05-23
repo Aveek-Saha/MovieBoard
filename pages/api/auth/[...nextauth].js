@@ -34,6 +34,9 @@ export const authOptions = {
             session.user.role = user.role;
             return session;
         },
+        async redirect({ url, baseUrl }) {
+          return baseUrl
+        },
     },
     events: {
         async signIn({ user, isNewUser }) {
