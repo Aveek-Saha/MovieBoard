@@ -49,9 +49,9 @@ async function getReviews(userId) {
     return reviews;
 }
 
-export default async function Page({params}) {
+export default async function Page() {
     const session = await getServerSession(authOptions);
-    if (!session || params.userId !== session.user.id) {
+    if (!session) {
         return <h2>Unauthorized</h2>;
     }
     const userId = session.user.id;

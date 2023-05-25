@@ -52,15 +52,26 @@ export default async function Review({ review }) {
                                     <FontAwesomeIcon icon={faStar} />{" "}
                                     {review.rating}
                                 </span>
+
+                                {review.movie_title && (
+                                    <Link
+                                        href={`/review/${review.tmdb_id}`}
+                                        className="link"
+                                    >
+                                        <span className="badge bg-dark ms-2">
+                                            {review.movie_title}
+                                        </span>
+                                    </Link>
+                                )}
                             </div>
-                            <span className="text-muted">
+                            <div className="text-muted">
                                 @{review.user.user.name}
                                 {" • "}
                                 {review.created_on
                                     .split(" ")
                                     .slice(1)
                                     .join(" ")}
-                            </span>
+                            </div>
                         </div>
                         <div className="col-1">
                             {(session?.user?.id === review.userId ||

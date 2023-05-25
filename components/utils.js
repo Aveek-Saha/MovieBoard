@@ -18,6 +18,48 @@ export function longDate(isoDate) {
     return date.toDateString().split(" ").slice(1).join(" ");
 }
 
+export async function getReviewsByUser(userId) {
+    let reviews = await prisma.Review.findMany({
+        where: {
+            userId: userId,
+        },
+        include: {
+            user: {
+                select: {
+                    user: {
+                        select: {
+                            id: true,
+                            name: true,
+                            email: true,
+                            image: true,
+                            full_name: true,
+                            role: true,
+                        },
+                    },
+                },
+            },
+            likedBy: true,
+
+            _count: {
+                select: { likedBy: true },
+            },
+        },
+        orderBy: {
+            created_on: "desc",
+        },
+    });
+    reviews = await Promise.all(reviews.map(async (review) => {
+        const movie = await getMovie(review.tmdb_id);
+        return {
+            ...review,
+            movie_title: movie.title,
+            last_modified: review.last_modified.toDateString(),
+            created_on: review.created_on.toDateString(),
+        };
+    }))
+    return reviews;
+}
+
 export async function getFollowing(userId) {
     let following = await prisma.Reviewer.findUnique({
         where: {

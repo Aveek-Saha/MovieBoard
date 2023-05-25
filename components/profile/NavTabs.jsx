@@ -9,6 +9,55 @@ export default function NavTabs({ userId }) {
     const { data: session, status } = useSession();
     const paths = pathname.split("/");
     const active = paths.at(-1);
+    if (session?.user.id === userId) {
+        return (
+            <ul className="nav profile_tab mt-4 mb-3 fw-bold nav-justified">
+                <li className="nav-item">
+                    <Link
+                        className={`nav-link ${
+                            active === "reviews" ? "active" : ""
+                        }`}
+                        href={`/profile/user/reviews`}
+                    >
+                        Reviews
+                    </Link>
+                </li>
+                <li className="nav-item">
+                    <Link
+                        className={`nav-link ${
+                            active === "following" ? "active" : ""
+                        }`}
+                        href={`/profile/user/following`}
+                    >
+                        Following
+                    </Link>
+                </li>
+
+                <li className="nav-item">
+                    <Link
+                        className={`nav-link ${
+                            active === "likes" ? "active" : ""
+                        }`}
+                        href={`/profile/user/likes`}
+                    >
+                        Likes
+                    </Link>
+                </li>
+                {session?.user.role === "moderator" && (
+                    <li className="nav-item">
+                        <Link
+                            className={`nav-link ${
+                                active === "moderating" ? "active" : ""
+                            }`}
+                            href={`/profile/user/moderating`}
+                        >
+                            Moderating
+                        </Link>
+                    </li>
+                )}
+            </ul>
+        );
+    }
 
     return (
         <ul className="nav profile_tab mt-4 mb-3 fw-bold nav-justified">
@@ -32,32 +81,6 @@ export default function NavTabs({ userId }) {
                     Following
                 </Link>
             </li>
-
-            {session?.user.id === userId && (
-                <li className="nav-item">
-                    <Link
-                        className={`nav-link ${
-                            active === "likes" ? "active" : ""
-                        }`}
-                        href={`/profile/${userId}/likes`}
-                    >
-                        Likes
-                    </Link>
-                </li>
-            )}
-            {session?.user.id === userId &&
-                session?.user.role === "moderator" && (
-                    <li className="nav-item">
-                        <Link
-                            className={`nav-link ${
-                                active === "moderating" ? "active" : ""
-                            }`}
-                            href={`/profile/${userId}/moderating`}
-                        >
-                            Moderating
-                        </Link>
-                    </li>
-                )}
         </ul>
     );
 }
