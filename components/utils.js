@@ -12,6 +12,18 @@ export async function getPopular() {
     return popular.json();
 }
 
+export async function getResults(query) {
+    const url = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.TMDB_API_KEY}&language=en-US&query=${query}&page=1&include_adult=false&region=US`;
+    const res = await fetch(url);
+    return res.json();
+}
+
+export async function getGenres() {
+    const url = `https://api.themoviedb.org/3/genre/movie/list?api_key=${process.env.TMDB_API_KEY}&language=en-US`;
+    const genres = await fetch(url);
+    return genres.json();
+}
+
 export async function getMovie(movieId) {
     const url = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${process.env.TMDB_API_KEY}&language=en-US`;
     const movie = await fetch(url);
@@ -60,15 +72,61 @@ export async function getReviewsByUser(userId) {
             created_on: "desc",
         },
     });
-    reviews = await Promise.all(reviews.map(async (review) => {
-        const movie = await getMovie(review.tmdb_id);
+    reviews = await Promise.all(
+        reviews.map(async (review) => {
+            const movie = await getMovie(review.tmdb_id);
+            return {
+                ...review,
+                movie_title: movie.title,
+                last_modified: review.last_modified.toDateString(),
+                created_on: review.created_on.toDateString(),
+            };
+        })
+    );
+    return reviews;
+}
+
+export async function getReviewsByUserLikes(userId) {
+    let reviews = await prisma.Review.findMany({
+        where: {
+            likedBy: {
+                some: {
+                    userId: userId,
+                },
+            },
+        },
+        include: {
+            user: {
+                select: {
+                    user: {
+                        select: {
+                            id: true,
+                            name: true,
+                            email: true,
+                            image: true,
+                            full_name: true,
+                            role: true,
+                        },
+                    },
+                },
+            },
+            likedBy: true,
+
+            _count: {
+                select: { likedBy: true },
+            },
+        },
+        orderBy: {
+            created_on: "desc",
+        },
+    });
+    reviews = reviews.map((review) => {
         return {
             ...review,
-            movie_title: movie.title,
             last_modified: review.last_modified.toDateString(),
             created_on: review.created_on.toDateString(),
         };
-    }))
+    });
     return reviews;
 }
 
@@ -118,4 +176,90 @@ export async function createModeratingMovieList(moderator) {
         movieList.push({ ...movie, genre_ids });
     }
     return movieList;
+}
+
+export async function getMovieBoard(movieId) {
+    const movieBoard = await prisma.MovieBoard.findUnique({
+        where: {
+            tmdb_id: movieId,
+        },
+        include: {
+            reviews: {
+                include: {
+                    user: {
+                        select: {
+                            user: {
+                                select: {
+                                    id: true,
+                                    name: true,
+                                    email: true,
+                                    image: true,
+                                    full_name: true,
+                                    role: true,
+                                },
+                            },
+                        },
+                    },
+                    likedBy: true,
+
+                    _count: {
+                        select: { likedBy: true },
+                    },
+                },
+                orderBy: {
+                    created_on: "desc",
+                },
+            },
+            followers: {
+                select: {
+                    userId: true,
+                },
+            },
+            moderators: {
+                select: {
+                    userId: true,
+                },
+            },
+            _count: {
+                select: { followers: true },
+            },
+        },
+    });
+    return movieBoard;
+}
+
+export async function getAverageScore(movieId) {
+    const avgScore = await prisma.Review.aggregate({
+        where: {
+            tmdb_id: movieId,
+        },
+        _avg: {
+            rating: true,
+        },
+        _count: {
+            rating: true,
+        },
+    });
+    return avgScore;
+}
+
+export async function getUserDetails(userId) {
+    const user = await prisma.User.findUnique({
+        where: {
+            id: userId,
+        },
+        include: {
+            reviewer: {
+                include: {
+                    reviews: true,
+                    _count: {
+                        select: {
+                            reviews: true,
+                        },
+                    },
+                },
+            },
+        },
+    });
+    return user;
 }

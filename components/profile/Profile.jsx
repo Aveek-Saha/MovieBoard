@@ -2,7 +2,7 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import Link from "next/link";
 
-import prisma from "@/prisma/prisma";
+import { getUserDetails } from "../utils";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -18,26 +18,6 @@ import { faCalendar, faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 import countries from "@/components/countries";
 import NavTabs from "@/components/profile/NavTabs";
 
-async function getUserDetails(userId) {
-    const user = await prisma.User.findUnique({
-        where: {
-            id: userId,
-        },
-        include: {
-            reviewer: {
-                include: {
-                    reviews: true,
-                    _count: {
-                        select: {
-                            reviews: true,
-                        },
-                    },
-                },
-            },
-        },
-    });
-    return user;
-}
 
 export default async function Profile({ userId, children }) {
     const session = await getServerSession(authOptions);

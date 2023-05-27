@@ -6,73 +6,9 @@ import Review from "@/components/reviews/Review";
 import MovieSidebar from "@/components/movies/MovieSidebar";
 import Follow from "@/components/movies/Follow";
 import Moderate from "@/components/movies/Moderate";
-import prisma from "@/prisma/prisma";
+
+import { getMovieBoard, getAverageScore } from "@/components/utils";
 import Link from "next/link";
-
-async function getMovieBoard(movieId) {
-    const movieBoard = await prisma.MovieBoard.findUnique({
-        where: {
-            tmdb_id: movieId,
-        },
-        include: {
-            reviews: {
-                include: {
-                    user: {
-                        select: {
-                            user: {
-                                select: {
-                                    id: true,
-                                    name: true,
-                                    email: true,
-                                    image: true,
-                                    full_name: true,
-                                    role: true,
-                                },
-                            },
-                        },
-                    },
-                    likedBy: true,
-
-                    _count: {
-                        select: { likedBy: true },
-                    },
-                },
-                orderBy: {
-                    created_on: "desc",
-                },
-            },
-            followers: {
-                select: {
-                    userId: true,
-                },
-            },
-            moderators: {
-                select: {
-                    userId: true,
-                },
-            },
-            _count: {
-                select: { followers: true },
-            },
-        },
-    });
-    return movieBoard;
-}
-
-async function getAverageScore(movieId) {
-    const avgScore = await prisma.Review.aggregate({
-        where: {
-            tmdb_id: movieId,
-        },
-        _avg: {
-            rating: true,
-        },
-        _count: {
-            rating: true,
-        },
-    });
-    return avgScore;
-}
 
 export default async function Page({ params }) {
     const session = await getServerSession(authOptions);

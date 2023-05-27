@@ -1,8 +1,4 @@
-async function getGenres() {
-    const url = `https://api.themoviedb.org/3/genre/movie/list?api_key=${process.env.TMDB_API_KEY}&language=en-US`;
-    const genres = await fetch(url);
-    return genres.json();
-}
+import { getGenres } from "../utils";
 
 export default async function Genres({ genre_ids, background }) {
     const genre = await getGenres();

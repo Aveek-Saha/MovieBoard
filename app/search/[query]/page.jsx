@@ -1,10 +1,5 @@
 import MovieGrid from "@/components/movies/MovieGrid";
-
-async function getResults(query) {
-    const url = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.TMDB_API_KEY}&language=en-US&query=${query}&page=1&include_adult=false&region=US`;
-    const res = await fetch(url);
-    return res.json();
-}
+import { getResults } from "@/components/utils";
 
 export default async function SearchQuery({ params }) {
     const query = decodeURIComponent(params.query);
