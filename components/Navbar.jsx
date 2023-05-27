@@ -1,5 +1,6 @@
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../pages/api/auth/[...nextauth]";
+import Link from "next/link";
 
 import Logout from "../components/auth/Logout";
 
@@ -8,34 +9,15 @@ export default async function Navbar() {
     return (
         <nav className="navbar navbar-expand-lg bg-body-tertiary header navbar-dark mb-4 mt-2">
             <div className="container-fluid">
-                <a className="navbar-brand header__title fs-2" href="/">
+                <Link className="navbar-brand header__title fs-2" href="/">
                     MovieBoard
-                </a>
+                </Link>
                 <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                     <li className="nav-item">
-                        <a
-                            className="nav-link active"
-                            aria-current="page"
-                            href="/"
-                        >
-                            Home
-                        </a>
-                    </li>
-                    <li className="nav-item">
-                        <a className="nav-link" href="/search">
+                        <Link className="nav-link" href="/search">
                             Search
-                        </a>
+                        </Link>
                     </li>
-                    {session?.user && (
-                        <li className="nav-item">
-                            <a
-                                className="nav-link"
-                                href={`/profile/${session?.user.id}`}
-                            >
-                                Profile
-                            </a>
-                        </li>
-                    )}
                 </ul>
 
                 {session?.user.role === "moderator" && (
@@ -45,9 +27,9 @@ export default async function Navbar() {
                 )}
 
                 {!session?.user && (
-                    <a className="navbar-text header__item" href="/login">
+                    <Link className="navbar-text header__item" href="/login">
                         Login
-                    </a>
+                    </Link>
                 )}
                 {session?.user && (
                     <span className="navbar-text">
