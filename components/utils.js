@@ -1,5 +1,17 @@
 import prisma from "@/prisma/prisma";
 
+export async function getNowPlaying() {
+    const url = `https://api.themoviedb.org/3/movie/now_playing?api_key=${process.env.TMDB_API_KEY}&language=en-US&page=1`;
+    const nowPlaying = await fetch(url);
+    return nowPlaying.json();
+}
+
+export async function getPopular() {
+    const url = `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.TMDB_API_KEY}&language=en-US&page=1`;
+    const popular = await fetch(url);
+    return popular.json();
+}
+
 export async function getMovie(movieId) {
     const url = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${process.env.TMDB_API_KEY}&language=en-US`;
     const movie = await fetch(url);

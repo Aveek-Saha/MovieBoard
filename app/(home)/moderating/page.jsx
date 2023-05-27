@@ -1,23 +1,21 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
-import MovieGrid from "./MovieGrid";
+import MovieGrid from "@/components/movies/MovieGrid";
 import { getModerating, createModeratingMovieList } from "@/components/utils";
 
-export default async function Moderating() {
+export default async function HomeModerating() {
     const session = await getServerSession(authOptions);
     if (!session) {
         return <h1>Please Login</h1>;
+    }
+    if (session.user.role !== "moderator") {
+        return <h1>Unauthorized, moderators only</h1>;
     }
     const userId = session.user.id;
 
     const moderating = await getModerating(userId);
     const movieList = await createModeratingMovieList(moderating);
 
-    return (
-        <>
-            <h1 className="mb-0">Moderating</h1>
-            <MovieGrid movies={movieList} />
-        </>
-    );
+    return <MovieGrid movies={movieList} />;
 }
