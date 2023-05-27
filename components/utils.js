@@ -120,13 +120,17 @@ export async function getReviewsByUserLikes(userId) {
             created_on: "desc",
         },
     });
-    reviews = reviews.map((review) => {
-        return {
-            ...review,
-            last_modified: review.last_modified.toDateString(),
-            created_on: review.created_on.toDateString(),
-        };
-    });
+    reviews = await Promise.all(
+        reviews.map(async (review) => {
+            const movie = await getMovie(review.tmdb_id);
+            return {
+                ...review,
+                movie_title: movie.title,
+                last_modified: review.last_modified.toDateString(),
+                created_on: review.created_on.toDateString(),
+            };
+        })
+    );
     return reviews;
 }
 

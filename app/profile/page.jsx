@@ -11,6 +11,6 @@ export default async function User() {
         router.push(`/login`);
     } else {
         const router = useRouter();
-        router.push(`/profile/${session?.user.id}`);
+        router.push(`/profile/user`);
     }
 }
