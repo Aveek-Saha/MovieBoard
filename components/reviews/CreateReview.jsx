@@ -33,7 +33,7 @@ export default function CreateReview({ tmdb_id }) {
     const [tempRating, setTempRating] = useState(rating);
     const [hover, setHover] = useState(0);
     return (
-        <div className="col-6">
+        <div className="col-12 col-sm-12 col-md-8 col-lg-6">
             <form onSubmit={(e) => create(e)}>
                 <h2>New Review</h2>
                 <div className="star-rating mt-3 mb-3">
@@ -74,6 +74,13 @@ export default function CreateReview({ tmdb_id }) {
                     >
                         {tempRating}
                     </span>
+                    <span
+                        className={`ms-3 text-muted ${
+                            rating > 0 ? "d-none" : ""
+                        }`}
+                    >
+                        Star rating required
+                    </span>
                 </div>
                 <div className="mb-3">
                     <span className="float-end mb-1">
@@ -91,7 +98,7 @@ export default function CreateReview({ tmdb_id }) {
                     </span>
                     <textarea
                         className="form-control search"
-                        placeholder="Type your review here"
+                        placeholder="Type your review here. Review body is required."
                         value={body}
                         onChange={(e) => setBody(e.target.value)}
                         maxLength="280"
@@ -107,7 +114,11 @@ export default function CreateReview({ tmdb_id }) {
                 >
                     Back
                 </button>
-                <button type="submit" className="btn btn-outline-success m-2">
+                <button
+                    type="submit"
+                    className="btn btn-outline-success m-2"
+                    disabled={body.length < 1 || rating <= 0}
+                >
                     Create Review
                 </button>
             </form>

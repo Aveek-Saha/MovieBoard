@@ -4,11 +4,9 @@ import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import StarRating from "@/components/movies/StarRating";
 import Review from "@/components/reviews/Review";
 import MovieSidebar from "@/components/movies/MovieSidebar";
-import Follow from "@/components/movies/Follow";
-import Moderate from "@/components/movies/Moderate";
+import ReviewButtons from "@/components/reviews/ReviewButtons";
 
-import { getMovieBoard, getAverageScore } from "@/components/utils";
-import Link from "next/link";
+import { getMovieBoard, getAverageScore, getMovie } from "@/components/utils";
 
 export default async function Page({ params }) {
     const session = await getServerSession(authOptions);
@@ -27,6 +25,7 @@ export default async function Page({ params }) {
         followers = movieBoard.followers;
         moderators = movieBoard.moderators;
     }
+    const movie = await getMovie(params.movieId);
 
     const reviews = movieBoard?.reviews?.map((review) => {
         return {
@@ -39,22 +38,41 @@ export default async function Page({ params }) {
     return (
         <>
             <div className="row">
-                <div className="col-3 text-center">
+                <div className="col-3 text-center d-none d-sm-none d-md-none d-lg-block">
                     <MovieSidebar movieId={params.movieId} />
                 </div>
-                <div className="col-6">
-                    <h1>Reviews</h1>
+                <div className="col-12 col-xs-12 col-sm-8 col-lg-6">
+                    <h1 className="d-block d-sm-block d-md-block d-lg-none">
+                        {movie.title}
+                    </h1>
+                    <div className="d-block d-sm-none">
+                        <h5 className="card-text">
+                            <strong>{rating}</strong> from{" "}
+                            <strong>{numRating}</strong> reviews
+                        </h5>
+                        <ReviewButtons
+                            movieId={params.movieId}
+                            followers={followers}
+                            moderators={moderators}
+                        />
+                    </div>
+                    <h2>Reviews</h2>
                     <div className="list-group list-group-flush mb-3">
+                        {reviews.length === 0 && (
+                            <h3 className="mt-4 text-muted">
+                                Be the first one to write a review!
+                            </h3>
+                        )}
                         {reviews?.map((review) => {
                             return <Review key={review.id} review={review} />;
                         })}
                     </div>
                 </div>
-                <div className="col-3">
+                <div className="col-3 col-sm-4 col-lg-3 d-none d-sm-block">
                     <div className="card">
                         <div className="card-body">
                             <h5 className="card-title">Average Rating</h5>
-                            <h6 className="card-subtitle mt-2 mb-2">
+                            <h6 className="card-subtitle mt-2 mb-2 d-none d-lg-block">
                                 <StarRating
                                     ratingNumber={rating}
                                     maxRating={maxRating}
@@ -68,34 +86,11 @@ export default async function Page({ params }) {
                             <p className="card-text">
                                 <strong>{numFollowers}</strong> Followers
                             </p>
-                            {session && session.user.role === "reviewer" && (
-                                <>
-                                    <Link
-                                        href={`/review/${params.movieId}/new`}
-                                        className="btn btn-outline-success m-2"
-                                    >
-                                        Write Review
-                                    </Link>
-                                    <Follow
-                                        movieId={params.movieId}
-                                        followers={followers}
-                                    />
-                                </>
-                            )}
-                            {session && session.user.role === "moderator" && (
-                                <Moderate
-                                    movieId={params.movieId}
-                                    moderators={moderators}
-                                />
-                            )}
-                            {!session && (
-                                <Link
-                                    href={`/login`}
-                                    className="btn btn-outline-success m-2"
-                                >
-                                    Login to review
-                                </Link>
-                            )}
+                            <ReviewButtons
+                                movieId={params.movieId}
+                                followers={followers}
+                                moderators={moderators}
+                            />
                         </div>
                     </div>
                 </div>

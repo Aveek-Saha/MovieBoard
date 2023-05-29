@@ -15,7 +15,7 @@ export default function LoginList() {
         <div className="row">
             <button
                 type="button"
-                className="btn btn-lg btn-outline-dark m-2"
+                className="btn btn-lg btn-outline-dark mb-2 mt-2"
                 style={{ color: "#ea4335" }}
                 onClick={() => signIn("google")}
             >
@@ -23,7 +23,7 @@ export default function LoginList() {
             </button>
             <button
                 type="button"
-                className="btn btn-lg btn-outline-dark m-2"
+                className="btn btn-lg btn-outline-dark mb-2 mt-2"
                 style={{ color: "#5865f2" }}
                 onClick={() => signIn("discord")}
             >
@@ -31,7 +31,7 @@ export default function LoginList() {
             </button>
             <button
                 type="button"
-                className="btn btn-lg btn-outline-dark m-2"
+                className="btn btn-lg btn-outline-dark mb-2 mt-2"
                 style={{ color: "white" }}
                 onClick={() => signIn("github")}
             >
@@ -39,7 +39,7 @@ export default function LoginList() {
             </button>
             <button
                 type="button"
-                className="btn btn-lg btn-outline-dark m-2"
+                className="btn btn-lg btn-outline-dark mb-2 mt-2"
                 style={{ color: "#1da1f2" }}
                 onClick={() => signIn("twitter")}
             >

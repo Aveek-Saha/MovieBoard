@@ -20,7 +20,7 @@ export default function Follow({ movieId, followers }) {
             {following && (
                 <button
                     onClick={(e) => toggleFollowMovieBoard(movieId)}
-                    className="btn btn-outline-danger m-2"
+                    className="btn btn-outline-danger mt-2 mb-2"
                 >
                     UnFollow
                 </button>
@@ -28,7 +28,7 @@ export default function Follow({ movieId, followers }) {
             {!following && (
                 <button
                     onClick={(e) => toggleFollowMovieBoard(movieId)}
-                    className="btn btn-outline-primary m-2"
+                    className="btn btn-outline-primary mt-2 mb-2"
                 >
                     Follow
                 </button>

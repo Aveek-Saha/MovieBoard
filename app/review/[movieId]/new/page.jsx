@@ -11,7 +11,7 @@ export default async function Page({ params }) {
         }
         return (
             <div className="row">
-                <div className="col-3 text-center">
+                <div className="col-3 text-center d-none d-sm-none d-md-block col-md-4 col-lg-3">
                     <MovieSidebar movieId={params.movieId} />
                 </div>
                 <CreateReview tmdb_id={params.movieId} />

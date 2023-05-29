@@ -20,7 +20,7 @@ export default function Moderate({ movieId, moderators }) {
             {following && (
                 <button
                     onClick={(e) => toggleModerateMovieBoard(movieId)}
-                    className="btn btn-outline-danger m-2"
+                    className="btn btn-outline-danger mt-2 mb-2"
                 >
                     Remove as Mod
                 </button>
@@ -28,7 +28,7 @@ export default function Moderate({ movieId, moderators }) {
             {!following && (
                 <button
                     onClick={(e) => toggleModerateMovieBoard(movieId)}
-                    className="btn btn-outline-primary m-2"
+                    className="btn btn-outline-primary mt-2 mb-2"
                 >
                     Moderate Board
                 </button>

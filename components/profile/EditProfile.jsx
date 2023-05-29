@@ -41,8 +41,8 @@ export default function EditProfile({ user }) {
     };
     return (
         <div className="row">
-            <div className="col-3"></div>
-            <div className="col-6">
+            <div className="col"></div>
+            <div className="col-12 col-md-10 col-lg-8 col-xl-6">
                 <div className="row mb-3">
                     <div className="col-5">
                         <img
@@ -180,6 +180,7 @@ export default function EditProfile({ user }) {
                     </button>
                 </div>
             </div>
+            <div className="col"></div>
         </div>
     );
 }

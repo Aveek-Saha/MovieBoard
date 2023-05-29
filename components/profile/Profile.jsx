@@ -18,21 +18,34 @@ import { faCalendar, faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 import countries from "@/components/countries";
 import NavTabs from "@/components/profile/NavTabs";
 
-
 export default async function Profile({ userId, children }) {
     const session = await getServerSession(authOptions);
 
     const user = await getUserDetails(userId);
     return (
         <div className="row">
-            <div className="col-3 d-flex justify-content-center"></div>
-            <div className="col-6">
+            <div className="col"></div>
+            <div className="col-12 col-md-10 col-lg-8 col-xl-6">
                 <div className="row">
                     <div className="col-5">
                         <img
                             src={user.image}
                             className="rounded-circle img-fluid w-50"
                         />
+                    </div>
+                    <div className="col-7">
+                        {session.user.id === userId && (
+                            <Link
+                                href={`/profile/edit`}
+                                className="btn btn-outline-success m-2 float-end"
+                            >
+                                <FontAwesomeIcon
+                                    icon={faPenToSquare}
+                                    className="me-2"
+                                />
+                                Edit Profile
+                            </Link>
+                        )}
                     </div>
                 </div>
 
@@ -105,20 +118,7 @@ export default async function Profile({ userId, children }) {
                 <NavTabs userId={userId} />
                 <div>{children}</div>
             </div>
-            <div className="col-3">
-                {session.user.id === userId && (
-                    <Link
-                        href={`/profile/edit`}
-                        className="btn btn-outline-success m-2"
-                    >
-                        <FontAwesomeIcon
-                            icon={faPenToSquare}
-                            className="me-2"
-                        />
-                        Edit Profile
-                    </Link>
-                )}
-            </div>
+            <div className="col"></div>
         </div>
     );
 }
