@@ -7,9 +7,9 @@ import { getModerating, createModeratingMovieList } from "@/components/utils";
 
 export default async function Page({ params }) {
     const session = await getServerSession(authOptions);
-    const userId = params.userId;
-
+    
     if (session && session.user.role === "moderator") {
+        const userId = session.user.id;
         const moderating = await getModerating(userId);
         const movieList = await createModeratingMovieList(moderating);
 

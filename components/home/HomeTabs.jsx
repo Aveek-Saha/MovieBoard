@@ -50,11 +50,11 @@ export default function HomeTabs() {
                         <li className="nav-item">
                             <Link
                                 className={`nav-link ${
-                                    active === "following" ? "active" : ""
+                                    active === "moderating" ? "active" : ""
                                 }`}
-                                href={`/moderator`}
+                                href={`/moderating`}
                             >
-                                Moderator
+                                Moderating
                             </Link>
                         </li>
                     )}
