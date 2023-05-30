@@ -58,7 +58,7 @@ export default async function Page({ params }) {
                     </div>
                     <h2>Reviews</h2>
                     <div className="list-group list-group-flush mb-3">
-                        {reviews.length === 0 && (
+                        {(!reviews || reviews.length === 0) && (
                             <h3 className="mt-4 text-muted">
                                 Be the first one to write a review!
                             </h3>
