@@ -14,6 +14,13 @@ export default async function ReviewButtons({
 
     return (
         <>
+            {session?.user.role === "moderator" && (
+                <p className="card-text">
+                    <Link className="link" href={`/moderators/${movieId}`}>
+                        <strong>{moderators.length}</strong> Moderators
+                    </Link>
+                </p>
+            )}
             {session && session.user.role === "reviewer" && (
                 <>
                     <Link

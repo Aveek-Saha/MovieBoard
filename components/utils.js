@@ -158,6 +158,31 @@ export async function getModerating(userId) {
     return moderating;
 }
 
+export async function getModeratorsByMovie(movieId) {
+    let moderators = await prisma.MovieBoard.findUnique({
+        where: {
+            tmdb_id: movieId,
+        },
+        include: {
+            moderators: {
+                select: {
+                    user: {
+                        select: {
+                            id: true,
+                            name: true,
+                            image: true,
+                            full_name: true,
+                            created_on: true,
+                            region: true,
+                        },
+                    },
+                },
+            },
+        },
+    });
+    return moderators;
+}
+
 export async function createFollowingMovieList(reviewer) {
     let movieList = [];
     for (const movieBoard of reviewer.following) {

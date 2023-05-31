@@ -19,6 +19,9 @@ export default function EditProfile({ user }) {
     if (!session) {
         return <h1>Please login</h1>;
     }
+    if (session.user.id !== user.id) {
+        return <h1>Unauthorized</h1>;
+    }
 
     const editProfile = async () => {
         if (session) {
@@ -34,7 +37,7 @@ export default function EditProfile({ user }) {
                     role,
                 }),
             });
-            router.push(`/profile/${user.id}`);
+            router.push(`/profile/user`);
         } else {
             router.push("/login");
         }
@@ -167,7 +170,7 @@ export default function EditProfile({ user }) {
                 </div>
                 <div>
                     <Link
-                        href={`/profile/${user.id}`}
+                        href={`/profile/user`}
                         className="btn btn-outline-danger m-2"
                     >
                         Back
