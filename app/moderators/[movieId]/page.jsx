@@ -13,8 +13,12 @@ import countries from "@/components/countries";
 
 export default async function Page({ params }) {
     const session = await getServerSession(authOptions);
-    if (!session && session.user.role !== "moderator") {
+    if (!session) {
         return <h1>Unauthorized access</h1>;
+    } else {
+        if (session.user.role !== "moderator") {
+            return <h1>Unauthorized access</h1>;
+        }
     }
 
     const movieBoard = await getModeratorsByMovie(params.movieId);
