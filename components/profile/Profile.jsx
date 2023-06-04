@@ -34,7 +34,7 @@ export default async function Profile({ userId, children }) {
                         />
                     </div>
                     <div className="col-7">
-                        {session.user.id === userId && (
+                        {session?.user.id === userId && (
                             <Link
                                 href={`/profile/edit`}
                                 className="btn btn-outline-success m-2 float-end"
@@ -89,7 +89,7 @@ export default async function Profile({ userId, children }) {
                         </span>
                     </div>
                 </div>
-                {session.user.id === userId && (
+                {session?.user.id === userId && (
                     <div className="px-3 mt-4 mb-3">
                         <div className="mb-3 h5">
                             <FontAwesomeIcon icon={faLock} className={"me-2"} />

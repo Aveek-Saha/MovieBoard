@@ -2,6 +2,7 @@ import Vibrant from "node-vibrant";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendar, faClock } from "@fortawesome/free-regular-svg-icons";
 import { getMovie, toHoursAndMinutes, longDate } from "../utils";
+import Image from "next/image";
 
 export default async function MovieDetails({ movieId }) {
     const movie = await getMovie(movieId);
@@ -18,7 +19,13 @@ export default async function MovieDetails({ movieId }) {
         <div className="card card_movie mb-3">
             <div className="row g-0">
                 <div className="col-3">
-                    <img src={imgUrl} className="img-fluid" alt="..." />
+                    <Image
+                        src={imgUrl}
+                        className="img-fluid"
+                        alt={movie.title}
+                        width={500}
+                        height={714}
+                    />
                 </div>
                 <div className="col-7 ms-4">
                     <div className="card-body">

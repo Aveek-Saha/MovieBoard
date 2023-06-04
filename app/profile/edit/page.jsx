@@ -16,7 +16,7 @@ async function getUserDetails(userId) {
 export default async function Page() {
     const session = await getServerSession(authOptions);
     if (!session) {
-        return <h1>Please login</h1>;
+        return <h1 className="text-center">Please login</h1>;
     }
 
     const userId = session?.user?.id;

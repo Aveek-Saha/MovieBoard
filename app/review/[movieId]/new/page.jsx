@@ -18,5 +18,5 @@ export default async function Page({ params }) {
             </div>
         );
     }
-    return <div>Please log in</div>;
+    return <h1 className="text-center">Please log in</h1>;
 }

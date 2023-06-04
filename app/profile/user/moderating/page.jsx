@@ -24,5 +24,5 @@ export default async function Page({ params }) {
         );
     }
 
-    return <h2>Unauthorized</h2>
+    return <h2 className="text-center">Unauthorized access</h2>
 }

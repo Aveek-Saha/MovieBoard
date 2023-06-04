@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import Vibrant from "node-vibrant";
 import Genres from "./Genres";
 
@@ -13,7 +14,7 @@ export default async function MovieCard({ movie }) {
     if (movie.poster_path != null) {
         imgUrl = `https://image.tmdb.org/t/p/w342/${movie.poster_path}`;
     } else {
-        imgUrl = `https://placehold.co/500x714/222222/222222.jpg?text=Img`;
+        imgUrl = `https://placehold.co/342x513/222222/222222.jpg?text=Img`;
     }
 
     const palette = await Vibrant.from(imgUrl).getPalette();
@@ -31,11 +32,13 @@ export default async function MovieCard({ movie }) {
                         color: "inherit",
                     }}
                 >
-                    <img
+                    <Image
                         src={imgUrl}
                         className="card-img-top img-fluid"
-                        alt="..."
-                    ></img>
+                        alt={movie.title}
+                        width={342}
+                        height={513}
+                    ></Image>
                     <div className="card-body card-body_list">
                         <h5 className="card-title m-2 text-truncate">
                             {movie.title}

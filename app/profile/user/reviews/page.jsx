@@ -8,7 +8,7 @@ import Review from "@/components/reviews/Review";
 export default async function Reviews() {
     const session = await getServerSession(authOptions);
     if (!session) {
-        return <h2>Please Login</h2>;
+        return <h2 className="text-center">Please Login</h2>;
     }
     const userId = session.user.id;
 

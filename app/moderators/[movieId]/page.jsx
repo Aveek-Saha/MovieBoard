@@ -14,10 +14,10 @@ import countries from "@/components/countries";
 export default async function Page({ params }) {
     const session = await getServerSession(authOptions);
     if (!session) {
-        return <h1>Unauthorized access</h1>;
+        return <h1 className="text-center">Please login</h1>;
     } else {
         if (session.user.role !== "moderator") {
-            return <h1>Unauthorized access</h1>;
+            return <h1 className="text-center">Unauthorized access</h1>;
         }
     }
 

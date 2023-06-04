@@ -1,6 +1,7 @@
 import Vibrant from "node-vibrant";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendar, faClock } from "@fortawesome/free-regular-svg-icons";
+import Image from "next/image";
 
 import { getMovie, toHoursAndMinutes, longDate } from "@/components/utils";
 
@@ -17,7 +18,13 @@ export default async function MovieSidebar({ movieId }) {
 
     return (
         <>
-            <img src={imgUrl} className="img-fluid w-75" alt="..." />
+            <Image
+                src={imgUrl}
+                className="img-fluid w-75"
+                alt={movie.title}
+                width={500}
+                height={714}
+            />
             <h1 className="card-title">{movie.title}</h1>
             <h6 className="card-subtitle mb-2 mt-3">
                 {movie.genres?.map((g) => {
